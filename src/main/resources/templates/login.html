@@ -9,18 +9,24 @@
     <h1>Login</h1>
     <br>
     <div>
-        <form method="GET" action="/travel_planner">
+        <form method="POST" action="/" data-th-object="${login}">
             <table>
                 <tr>
                     <td>Name: </td>
                     <td>
-                        <input type="text" name="name">
+                        <input type="text" name="username" data-th-field="*{username}">
+                    </td>
+                    <td>
+                        <p data-th-if="${#fields.hasErrors('username')}" data-th-errors="*{username}" data-th-errorclass="error"></p>
                     </td>
                 </tr>
                 <tr>
                     <td>Password</td>
                     <td>
-                        <input type="password" name="password"> 
+                        <input type="password" name="password" data-th-field="*{password}"> 
+                    </td>
+                    <td>
+                        <p data-th-if="${#fields.hasErrors('password')}" data-th-errors="*{password}" data-th-errorclass="error"></p>
                     </td>
                 </tr>
                 <tr>
