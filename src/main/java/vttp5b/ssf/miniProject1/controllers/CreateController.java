@@ -30,7 +30,7 @@ public class CreateController {
     @PostMapping("create")
     public ModelAndView postCreate(@Valid @ModelAttribute("userInfo") User userForm, BindingResult bind, HttpSession sess) {
         ModelAndView mav = new ModelAndView();
-        User user =  sSvc.getSession(sess);
+        User user =  sSvc.getSessionPreLogin(sess);
         System.out.println("get sess " + user);
         //validation
         if (bind.hasErrors()) {

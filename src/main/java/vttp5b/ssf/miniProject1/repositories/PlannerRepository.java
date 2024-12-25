@@ -81,10 +81,16 @@ public class PlannerRepository {
     public List<User> getUserList() {
         Set<String> users = template.keys("user*");
         List<User> userList = new LinkedList<>();
-
+        
         for (String s: users) {
+            
             User u = getUser(s);
-            userList.add(u);
+            if (u != null) {
+                userList.add(u);
+            } else {
+                // Optionally log if the user wasn't found
+                System.out.println("User not found for key: " + s);
+            }
         }
         return userList;
     }

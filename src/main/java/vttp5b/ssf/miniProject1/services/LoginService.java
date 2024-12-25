@@ -43,11 +43,11 @@ public class LoginService {
         if (foundUserOpt.isPresent()) {
             User foundUser = foundUserOpt.get();
 
-            if (!foundUser.getUsername().equals(user.getUsername()) 
-                    || !foundUser.getPassword().equals(user.getPassword())) {
-            FieldError pwErr = new FieldError("loginForm", "password", "wrong password or username");
-            bind.addError(pwErr);
-            return false;
+            if (!foundUser.getPassword().equals(user.getPassword())) {
+                
+                FieldError pwErr = new FieldError("loginForm", "password", "wrong password or username");
+                bind.addError(pwErr);
+                return false;
             }
             return true;
         }

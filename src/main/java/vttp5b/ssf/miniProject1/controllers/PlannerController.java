@@ -33,9 +33,13 @@ public class PlannerController {
     @PostMapping("/{flightCode}")
     public ModelAndView postToPlanner(@PathVariable String flightCode, HttpSession sess){
         ModelAndView mav = new ModelAndView();
-        User user = sSvc.getSession(sess);
-
         System.out.println("post flightcode");
+
+        User user = sSvc.getSessionPostLogin(sess);
+        if (user == null) {
+            mav.setViewName("login");
+            return mav;
+        }
         System.out.println(user);
 
         //save flight obj to user through flightCode
@@ -44,24 +48,25 @@ public class PlannerController {
         fSvc.saveFlightToAcct(flight, user, FROM_TO);
         
         mav.addObject(USER_INFO, user);
-        mav.setViewName("travel_planner");
+        mav.setViewName("redirect:/travel_planner");
         return mav;
     }
 
     @GetMapping(path={"","/{flightCode}"})
     public ModelAndView getTravelPlanner(HttpSession sess) {
         ModelAndView mav = new ModelAndView();
-        
-        User user = sSvc.getSession(sess);
-
-        
         System.out.println("get travel planner");
+        
+        User user = sSvc.getSessionPostLogin(sess);
+        if (user == null) {
+            mav.setViewName("login");
+            return mav;
+        }
         System.out.println(user);
 
         //fetch flight detail
-
+        
         //test input
-        System.out.println(sess.getId());
 
         mav.addObject(USER_INFO, user);
         mav.setViewName("travel_planner");

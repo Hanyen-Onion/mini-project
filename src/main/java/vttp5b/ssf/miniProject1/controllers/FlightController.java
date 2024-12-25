@@ -35,10 +35,14 @@ public class FlightController {
     // flight -> flight , returns filter
     @PostMapping()
     public ModelAndView postSearch(@RequestBody MultiValueMap<String, String> searchParams, @ModelAttribute FlightInfo flightInfo, HttpSession sess) {
-        
         ModelAndView mav = new ModelAndView();
-        User user = sSvc.getSession(sess);
         System.out.println("post search");
+
+        User user = sSvc.getSessionPostLogin(sess);
+        if (user == null) {
+            mav.setViewName("login");
+            return mav;
+        }
         System.out.println(user);
 
         FlightSearchParams params = new FlightSearchParams(
@@ -59,10 +63,15 @@ public class FlightController {
     //get unflitered list
     @GetMapping(path={"", "/depart", "/return"})
     public ModelAndView getFlight(HttpSession sess) {
-
         ModelAndView mav = new ModelAndView();
-        User user = sSvc.getSession(sess);
         System.out.println("get flight");
+
+        User user = sSvc.getSessionPostLogin(sess);
+        if (user == null) {
+            mav.setViewName("login");
+            return mav;
+        }
+       
         System.out.println(user);
 
         List<FlightInfo> allFlightInfoList = fSvc.getFlightList();

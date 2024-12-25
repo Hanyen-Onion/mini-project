@@ -48,8 +48,12 @@ public class SessionService {
         System.out.println("didn't find anything in redis");
         return null;
     }
+    public User getSessionPostLogin(HttpSession sess) {
+        User user = (User)sess.getAttribute(USER_INFO);
+        return user;
+    }
 
-    public  User getSession(HttpSession sess) {
+    public User getSessionPreLogin(HttpSession sess) {
         User user = (User)sess.getAttribute(USER_INFO);
 
         //create empty login object if no session
@@ -57,6 +61,6 @@ public class SessionService {
             user = new User();
             sess.setAttribute(USER_INFO, user);
         }
-    return user;
+        return user;
     }
 }
