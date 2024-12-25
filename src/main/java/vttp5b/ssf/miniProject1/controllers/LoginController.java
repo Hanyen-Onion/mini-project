@@ -11,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import vttp5b.ssf.miniProject1.models.LoginInfo;
-import vttp5b.ssf.miniProject1.services.PlannerService;
+import vttp5b.ssf.miniProject1.models.User;
+import vttp5b.ssf.miniProject1.services.LoginService;
 import static vttp5b.ssf.miniProject1.Util.*;
 
 @Controller
@@ -20,42 +20,52 @@ import static vttp5b.ssf.miniProject1.Util.*;
 public class LoginController {
     
     @Autowired
-    private PlannerService plannerSvc;
+    private LoginService loginSvc;
 
     @PostMapping
-    public ModelAndView postLogin(@Valid @ModelAttribute("login") LoginInfo loginForm, BindingResult bind, HttpSession sess) {
+    public ModelAndView postLogin(@Valid @ModelAttribute("userInfo") User loginForm, BindingResult bind, HttpSession sess) {
         
-        ModelAndView mav = new ModelAndView();;
+        ModelAndView mav = new ModelAndView();
+        User user = getSession(sess);
+
+        System.out.println("post login");
 
         //validation
-        if (plannerSvc.isLoginSuccessful(loginForm ,bind)==false) {
+        if (bind.hasErrors()) {
             System.out.println("err");
             mav.setViewName("login");
             return mav;
         }
 
-        LoginInfo login = getSession(sess);
-        //if session is new and obj is still empty
-        if ((login.getUsername() == null)&&(login.getPassword()==null)) {
-            
-            login.setUsername(loginForm.getUsername());
-            login.setPassword(loginForm.getPassword());
+        if (loginSvc.isLoginSuccessful(loginForm ,bind)==false) {
+            System.out.println("err");
+            mav.setViewName("login");
+            return mav;
         }
 
-        System.out.println("sess "+login);
+        // if session is new and obj is still empty
+        if ((user.getUsername() == null)&&(user.getPassword()==null)) {
+            //find user info from redis and populate sess
+            user = loginSvc.populateLoginSess(loginForm);
+        }
+        //System.out.println(user);
 
-        mav.addObject(LOGIN, login);
-        mav.setViewName("travel_planner");
+        mav.addObject(USER_INFO, user);
+        mav.setViewName("redirect:/travel_planner");
 
         return mav;
     }
+    
 
     @GetMapping
-    public ModelAndView getLogin() {
+    public ModelAndView getLogin(HttpSession sess) {
 
         ModelAndView mav = new ModelAndView();
+        User user = getSession(sess);
 
-        mav.addObject(LOGIN, new LoginInfo());
+        System.out.println("get login");
+
+        mav.addObject(USER_INFO, user);
         mav.setViewName("login");
 
         return mav;

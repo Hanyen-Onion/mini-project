@@ -61,7 +61,7 @@ public class AppConfig {
       return redisTemplate;
    }
 
-   @Bean("redis-0")
+   @Bean("redis-string")
    public RedisTemplate<String, String> createRedisTemplate() {
       
       // Create a database configuration
