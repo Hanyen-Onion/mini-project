@@ -29,11 +29,8 @@ public class LoginController {
 
     @PostMapping
     public ModelAndView postLogin(@Valid @ModelAttribute("userInfo") User loginForm, BindingResult bind, HttpSession sess) {
-        
         ModelAndView mav = new ModelAndView();
         User user = sSvc.getSession(sess);
-
-        System.out.println("post login");
 
         //validation
         if (bind.hasErrors()) {
@@ -47,21 +44,20 @@ public class LoginController {
             mav.setViewName("login");
             return mav;
         }
-
         // if session is new and obj is still empty
         if ((user.getUsername() == null)&&(user.getPassword()==null)) {
             //find user info from redis and populate sess
-            user = sSvc.populateLoginSess(loginForm);
+            user = sSvc.getUserWithLogin(loginForm);
         }
-
+       
+        System.out.println("post login");
         System.out.println(user);
 
         mav.addObject(USER_INFO, user);
-        mav.setViewName("travel_planner");
+        mav.setViewName("redirect:/travel_planner");
 
         return mav;
     }
-    
 
     @GetMapping
     public ModelAndView getLogin(HttpSession sess) {
@@ -70,6 +66,7 @@ public class LoginController {
         User user = sSvc.getSession(sess);
 
         System.out.println("get login");
+        System.out.println(user);
 
         mav.addObject(USER_INFO, user);
         mav.setViewName("login");

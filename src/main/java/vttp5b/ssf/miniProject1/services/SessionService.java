@@ -18,7 +18,7 @@ public class SessionService {
     private PlannerRepository pRepo;
 
     //if loginIsSucessful pull data from redis to put in sess
-    public User populateLoginSess(User loginForm) {
+    public User getUserWithLogin(User loginForm) {
         List<User> userList = pRepo.getUserList();
 
         if (loginForm.getUsername() != null) {
@@ -26,7 +26,13 @@ public class SessionService {
             .filter(existingUser -> existingUser.getUsername().equals(loginForm.getUsername()))
             .findFirst();
 
+            if (foundUserOpt.isEmpty()) {
+                System.out.println("no user found");
+                return null;
+            }
+
             User foundUser = foundUserOpt.get();
+            System.out.println("if form got user name, what i get from optional " + foundUser);
             return foundUser;
         }
         
@@ -39,18 +45,18 @@ public class SessionService {
             User foundUser = foundUserOpt.get();
             return foundUser;
         }
-        
+        System.out.println("didn't find anything in redis");
         return null;
     }
 
     public  User getSession(HttpSession sess) {
-    User user = (User)sess.getAttribute(USER_INFO);
+        User user = (User)sess.getAttribute(USER_INFO);
 
-    //create empty login object if no session
-    if (user == null) {
-        user = new User();
-        sess.setAttribute(USER_INFO, user);
-    }
+        //create empty login object if no session
+        if (user == null) {
+            user = new User();
+            sess.setAttribute(USER_INFO, user);
+        }
     return user;
     }
 }

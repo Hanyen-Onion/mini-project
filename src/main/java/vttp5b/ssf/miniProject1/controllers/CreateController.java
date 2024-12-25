@@ -29,23 +29,19 @@ public class CreateController {
 
     @PostMapping("create")
     public ModelAndView postCreate(@Valid @ModelAttribute("userInfo") User userForm, BindingResult bind, HttpSession sess) {
-        
         ModelAndView mav = new ModelAndView();
-
-        System.out.println("post create");
-
+        User user =  sSvc.getSession(sess);
+        System.out.println("get sess " + user);
         //validation
         if (bind.hasErrors()) {
             mav.setViewName("create");
             return mav;
         }
-        //check pw
+        //check pw and username
         if (loginSvc.isCreateSuccessful(userForm, bind) == false) {
-            
             mav.setViewName("create");
             return mav;
         }
-        User user = sSvc.getSession(sess);
 
         //if session is new and obj is still empty
         if ((user.getUsername() == null)&&(user.getPassword()==null)) {
@@ -54,8 +50,10 @@ public class CreateController {
             user.setUserId(sess.getId());
             sess.setAttribute(USER_INFO, user);
         }
-        loginSvc.saveUser(user);
-        System.out.println(user);
+        loginSvc.saveUser(userForm);
+
+        System.out.println("post create");
+        System.out.println("user" + user);
         
         mav.addObject(USER_INFO, user);
         mav.addObject("username", user.getUsername());

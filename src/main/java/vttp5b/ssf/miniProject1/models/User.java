@@ -1,5 +1,7 @@
 package vttp5b.ssf.miniProject1.models;
 
+import java.util.Arrays;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
@@ -39,10 +41,10 @@ public class User {
 
         String[] fields = string.split("&");
         String[] kv;
-
+        
         for(int i = 0; i < fields.length; i++) {
             kv = fields[i].split("=");
-            
+   
             if (kv.length == 2) 
             switch (kv[0]) {
                 case "username":
@@ -62,14 +64,6 @@ public class User {
         return user;
     }
 
-    // public static String getUserRedisKey(User user) {
-    //     return "user:"+ user.getUsername() + "_" + user.getPassword();
-    // }
-
-    // @Override
-    // public String toString() {
-    //     return "username=" + username + "&password=" + password;
-    // }
     public static String getUserRedisKey(User user) {
         return "user:"+ user.getUsername() + "_" + user.getUserId();
     }

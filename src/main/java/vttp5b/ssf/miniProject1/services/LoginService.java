@@ -36,31 +36,27 @@ public class LoginService {
         List<User> userList = plannerRepo.getUserList();
 
         Optional<User> foundUserOpt = userList.stream()
-        .filter(existingUser -> existingUser.getUsername().equals(user.getUsername()))
-        .findFirst();
+                    .filter(existingUser -> existingUser.getUsername().equals(user.getUsername()))
+                    .findFirst();
+        
+        //found the user
+        if (foundUserOpt.isPresent()) {
+            User foundUser = foundUserOpt.get();
 
-        User foundUser = foundUserOpt.get();
-
-        if (foundUserOpt.isEmpty()) {
-            FieldError usernameErr = new FieldError("loginForm", "username", "account does not exist");
-            bind.addError(usernameErr);
-            return false;
-        } 
-
-        if (!foundUser.getUsername().equals(user.getUsername()) 
-                    && !foundUser.getPassword().equals(user.getPassword())) {
-            
-            FieldError pwErr = new FieldError("loginForm", "password", "wrong password");
-            bind.addError(pwErr);
-            return false;
-
-        } else if (!foundUser.getUsername().equals(user.getUsername()) 
+            if (!foundUser.getUsername().equals(user.getUsername()) 
                     || !foundUser.getPassword().equals(user.getPassword())) {
-            FieldError pwErr = new FieldError("loginForm", "password", "wrong password");
+            FieldError pwErr = new FieldError("loginForm", "password", "wrong password or username");
             bind.addError(pwErr);
             return false;
+            }
+            return true;
         }
-       return true;
+
+        //user not found
+        FieldError usernameErr = new FieldError("loginForm", "username", "account does not exist");
+        bind.addError(usernameErr);
+        
+        return false;
     }
 
     public void saveUser(User user) {
@@ -68,10 +64,12 @@ public class LoginService {
     }
 
     public Boolean isCreateSuccessful(User user, BindingResult bind) {
-        
+
         if (isUsernameExist(user)) {
             FieldError usernameErr = new FieldError("createForm", "username", "username already registered");
             bind.addError(usernameErr);
+
+            System.out.println("1");
             return false;
         }
 
@@ -88,16 +86,15 @@ public class LoginService {
     }
 
     public Boolean isUsernameExist(User user) {
-        Boolean isExist = false;
+
+        if (user.getUsername() == null||user.getUsername().isEmpty()) {
+            return false;
+        }
 
         List<User> userList = plannerRepo.getUserList();
-        Optional<User> foundUserOpt = userList.stream()
-                        .filter(existingUser -> existingUser.getUsername().equals(user.getUsername()))
-                        .findFirst();
 
-        if (foundUserOpt.isPresent()) {
-            isExist = true;
-        }
-        return isExist;
+        return userList.stream()
+                        .anyMatch(o -> o.getUsername().equals(user.getUsername()));
+
     }
 }

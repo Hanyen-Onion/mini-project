@@ -53,12 +53,15 @@ public class PlannerController {
         ModelAndView mav = new ModelAndView();
         
         User user = sSvc.getSession(sess);
+
+        
         System.out.println("get travel planner");
         System.out.println(user);
 
         //fetch flight detail
 
         //test input
+        System.out.println(sess.getId());
 
         mav.addObject(USER_INFO, user);
         mav.setViewName("travel_planner");

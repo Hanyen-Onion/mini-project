@@ -119,7 +119,6 @@ public class FlightInfo {
                     break;
             }
         }
-        //System.out.println("at parse flight :" + flightInfo);
         return flightInfo;
     }
 

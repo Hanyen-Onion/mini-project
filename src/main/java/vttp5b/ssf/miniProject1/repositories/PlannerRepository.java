@@ -95,6 +95,7 @@ public class PlannerRepository {
         if (isKeyExist(userKey)) {
             String userString = hashOps.get(userKey,USER_INFO);
             User userRedis = User.parseToUserObj(userString);
+            
             return userRedis;
         }
         System.out.println("user not exist");
