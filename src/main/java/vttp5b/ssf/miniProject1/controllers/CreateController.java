@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import vttp5b.ssf.miniProject1.models.User;
 import vttp5b.ssf.miniProject1.services.LoginService;
+import vttp5b.ssf.miniProject1.services.SessionService;
 
 import static vttp5b.ssf.miniProject1.Util.*;
 
@@ -23,15 +24,8 @@ public class CreateController {
     @Autowired
     private LoginService loginSvc;
 
-    @GetMapping("create_successful")
-    public ModelAndView getCreateSuccessful(HttpSession sess) {
-        ModelAndView mav = new ModelAndView();
-        User session = getSession(sess);
-
-        mav.addObject(USER_INFO, session);
-        mav.setViewName("create_successful");
-        return mav;
-    }
+    @Autowired
+    private SessionService sSvc;
 
     @PostMapping("create")
     public ModelAndView postCreate(@Valid @ModelAttribute("userInfo") User userForm, BindingResult bind, HttpSession sess) {
@@ -51,15 +45,17 @@ public class CreateController {
             mav.setViewName("create");
             return mav;
         }
-        User user = getSession(sess);
+        User user = sSvc.getSession(sess);
 
         //if session is new and obj is still empty
         if ((user.getUsername() == null)&&(user.getPassword()==null)) {
             user.setUsername(userForm.getUsername());
             user.setPassword(userForm.getPassword());
+            user.setUserId(sess.getId());
             sess.setAttribute(USER_INFO, user);
         }
         loginSvc.saveUser(user);
+        System.out.println(user);
         
         mav.addObject(USER_INFO, user);
         mav.addObject("username", user.getUsername());

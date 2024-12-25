@@ -1,7 +1,6 @@
 package vttp5b.ssf.miniProject1.controllers;
 
-import static vttp5b.ssf.miniProject1.Util.USER_INFO;
-import static vttp5b.ssf.miniProject1.Util.getSession;
+import static vttp5b.ssf.miniProject1.Util.*;
 
 import java.util.List;
 
@@ -20,6 +19,7 @@ import vttp5b.ssf.miniProject1.models.FlightInfo;
 import vttp5b.ssf.miniProject1.models.FlightSearchParams;
 import vttp5b.ssf.miniProject1.models.User;
 import vttp5b.ssf.miniProject1.services.FlightService;
+import vttp5b.ssf.miniProject1.services.SessionService;
 
 
 @Controller
@@ -29,12 +29,17 @@ public class FlightController {
     @Autowired
     private FlightService fSvc;
 
+    @Autowired
+    private SessionService sSvc;
+
     // flight -> flight , returns filter
     @PostMapping()
     public ModelAndView postSearch(@RequestBody MultiValueMap<String, String> searchParams, @ModelAttribute FlightInfo flightInfo, HttpSession sess) {
         
         ModelAndView mav = new ModelAndView();
-        User user = getSession(sess);
+        User user = sSvc.getSession(sess);
+        System.out.println("post search");
+        System.out.println(user);
 
         FlightSearchParams params = new FlightSearchParams(
             searchParams.getFirst("searchDepAirport"),
@@ -52,11 +57,13 @@ public class FlightController {
     }
 
     //get unflitered list
-    @GetMapping()
+    @GetMapping(path={"", "/depart", "/return"})
     public ModelAndView getFlight(HttpSession sess) {
 
         ModelAndView mav = new ModelAndView();
-        User user = getSession(sess);
+        User user = sSvc.getSession(sess);
+        System.out.println("get flight");
+        System.out.println(user);
 
         List<FlightInfo> allFlightInfoList = fSvc.getFlightList();
         

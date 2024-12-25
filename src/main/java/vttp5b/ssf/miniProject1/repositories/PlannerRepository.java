@@ -4,8 +4,6 @@ import static vttp5b.ssf.miniProject1.Util.USER_INFO;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -62,12 +60,22 @@ public class PlannerRepository {
 
     }
     
-    //hset key(user:username_id) flightInfo
-    public void saveFlightToRedis(User userInfo, FlightInfo flightInfo) {
-        template.opsForHash().put(User.getUserRedisKey(userInfo), "flightObj", flightInfo.toString());
-    }
+
 
 //user
+
+    //hget key(user:username_id) flightInfo
+    public String getFlight(User user, String hkey) {
+        HashOperations<String, String, String> hashOps = template.opsForHash();
+
+        String fString = hashOps.get(User.getUserRedisKey(user), hkey);
+        return fString;
+    }
+
+    //hset key(user:username_id) flightInfo                     //hashkey name should be fromTo, backTo
+    public void saveFlightToRedis(User userInfo, FlightInfo flightInfo, String hkey) {
+        template.opsForHash().put(User.getUserRedisKey(userInfo), hkey, flightInfo.toString());
+    }
 
     //keys user:
     public List<User> getUserList() {

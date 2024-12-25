@@ -16,8 +16,8 @@
             <!-- Fly off -->
             <!-- <div data-th-else=""> -->
                 <div class="col-5">
-                    <a data-th-href="@{/flight}">
-                        <button type="button" class="btn btn-outline-primary">
+                    <!-- <a data-th-href="@{/flight}" > -->
+                        <button formmethod="GET" formaction="@{/flight/depart}" type="submit" class="btn btn-outline-primary">
                             <table class="">
                                 <thead>
                                     <tr>
@@ -43,7 +43,7 @@
                                 </tbody>
                             </table>
                         </button>
-                    </a>
+                    <!-- </a> -->
                 </div>  
             </div>
 

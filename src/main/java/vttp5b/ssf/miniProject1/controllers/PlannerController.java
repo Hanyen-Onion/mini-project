@@ -14,28 +14,36 @@ import jakarta.servlet.http.HttpSession;
 import vttp5b.ssf.miniProject1.models.FlightInfo;
 import vttp5b.ssf.miniProject1.models.User;
 import vttp5b.ssf.miniProject1.services.FlightService;
-import vttp5b.ssf.miniProject1.services.PlannerService;
+import vttp5b.ssf.miniProject1.services.SessionService;
 
 @Controller
 @RequestMapping("/travel_planner")
 public class PlannerController {
 
     @Autowired
-    private PlannerService plannerSvc;
+    private SessionService sSvc;
 
     @Autowired
     private FlightService fSvc;
 
+    private static final String FROM_TO = "fromTo";
+    private static final String BACK_TO = "backTo";
+
     // flight -> tavel_planner/flightcode=
     @PostMapping("/{flightCode}")
-    public ModelAndView postToPlanner(@PathVariable String flightCode){
+    public ModelAndView postToPlanner(@PathVariable String flightCode, HttpSession sess){
         ModelAndView mav = new ModelAndView();
+        User user = sSvc.getSession(sess);
+
+        System.out.println("post flightcode");
+        System.out.println(user);
 
         //save flight obj to user through flightCode
         FlightInfo flight = fSvc.getFlightObj(flightCode);
         System.out.println(flight);
+        fSvc.saveFlightToAcct(flight, user, FROM_TO);
         
-      
+        mav.addObject(USER_INFO, user);
         mav.setViewName("travel_planner");
         return mav;
     }
@@ -43,11 +51,12 @@ public class PlannerController {
     @GetMapping(path={"","/{flightCode}"})
     public ModelAndView getTravelPlanner(HttpSession sess) {
         ModelAndView mav = new ModelAndView();
-        User user = getSession(sess);
+        
+        User user = sSvc.getSession(sess);
+        System.out.println("get travel planner");
+        System.out.println(user);
 
         //fetch flight detail
-        //should fetch from redis instead of creating new
-        FlightInfo testObj = new FlightInfo();
 
         //test input
 

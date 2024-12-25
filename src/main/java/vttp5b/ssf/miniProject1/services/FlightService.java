@@ -24,6 +24,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import vttp5b.ssf.miniProject1.models.FlightInfo;
 import vttp5b.ssf.miniProject1.models.FlightSearchParams;
+import vttp5b.ssf.miniProject1.models.User;
 import vttp5b.ssf.miniProject1.repositories.PlannerRepository;
 
 @Service
@@ -35,11 +36,14 @@ public class FlightService {
     @Value("${aviationstack.api.key}")
     private String aviationStackApi;
 
-    private final static String FLIGHT_URL = "https://api.aviationstack.com/v1/flights";
+    private static final String FLIGHT_URL = "https://api.aviationstack.com/v1/flights";
+
+    //retrieve flight from user acct
 
     //save flight to user acct in redis
-    public void saveFlightToAcct() {
-        
+    public void saveFlightToAcct(FlightInfo flight, User user, String hkey) {
+        //hashkey name should be fromTo, backTo
+        plannerRepo.saveFlightToRedis(user,flight, hkey);
     }
 
     //get a flight obj from flightList
@@ -55,7 +59,6 @@ public class FlightService {
         }
 
         FlightInfo flight = obj.get();
-
         return flight;
     }
 
@@ -97,8 +100,6 @@ public class FlightService {
             .queryParam("limit", 100)
             .queryParam("flight_status", "scheduled")
             .toUriString();
-
-            System.out.println(url);
         
         //GET /flight
         RequestEntity<Void> req = RequestEntity

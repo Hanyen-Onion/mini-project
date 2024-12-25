@@ -17,19 +17,6 @@ public class LoginService {
     @Autowired
     private PlannerRepository plannerRepo;
 
-    //if loginIsSucessful pull data from redis to put in sess
-    public User populateLoginSess(User loginForm) {
-        List<User> userList = plannerRepo.getUserList();
-
-        Optional<User> foundUserOpt = userList.stream()
-        .filter(existingUser -> existingUser.getUsername().equals(loginForm.getUsername()))
-        .findFirst();
-
-        User foundUser = foundUserOpt.get();
-        
-        return foundUser;
-    }
-
     public Boolean isLoginFilledIn(User user, BindingResult bind) {
         
         if (user.getUsername()==null) {

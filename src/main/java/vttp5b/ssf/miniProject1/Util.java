@@ -7,13 +7,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-import jakarta.servlet.http.HttpSession;
-import vttp5b.ssf.miniProject1.models.User;
-
 public class Util {
 
     public static final String USER_INFO = "userInfo";
-    public static final String SESSION = "session";
 
 //Date & Time parsers
     public static String parseToDate(String string) {
@@ -105,17 +101,5 @@ public class Util {
         ZonedDateTime zdtForeign = ZonedDateTime.parse(time).withZoneSameInstant(foreignZ);
         
         return zdtForeign;
-    }
-
-    public static User getSession(HttpSession sess) {
-        User user = (User)sess.getAttribute(USER_INFO);
-
-        //create empty login object if no session
-        if (user == null) {
-            user = new User();
-            user.setUserId(sess.getId());
-            sess.setAttribute(USER_INFO, user);
-        }
-        return user;
     }
 }
