@@ -29,46 +29,74 @@ public class PlannerController {
     private static final String FROM_TO = "fromTo";
     private static final String BACK_TO = "backTo";
 
-    // flight -> tavel_planner/flightcode=
-    @PostMapping("/{flightCode}")
-    public ModelAndView postToPlanner(@PathVariable String flightCode, HttpSession sess){
+    // depart -> tavel_planner/departure/flightcode
+    @PostMapping("depart/{flightCode}")
+    public ModelAndView postFtToPlanner(@PathVariable String flightCode, HttpSession sess){
         ModelAndView mav = new ModelAndView();
-        System.out.println("post flightcode");
+        System.out.println("post flightcode for depature");
 
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
-            mav.setViewName("login");
+            mav.setViewName("redirect:/login");
             return mav;
         }
         System.out.println(user);
 
-        //save flight obj to user through flightCode
-        FlightInfo flight = fSvc.getFlightObj(flightCode);
-        System.out.println(flight);
-        fSvc.saveFlightToAcct(flight, user, FROM_TO);
+        //find flight through flightCode
+        FlightInfo ftFlight = fSvc.getFlightObj(flightCode);
+        //save flight to userAcct
+        fSvc.saveFlightToAcct(ftFlight, user, FROM_TO);
+
+        System.out.println(ftFlight);
         
         mav.addObject(USER_INFO, user);
         mav.setViewName("redirect:/travel_planner");
         return mav;
     }
 
-    @GetMapping(path={"","/{flightCode}"})
-    public ModelAndView getTravelPlanner(HttpSession sess) {
+    // return -> tavel_planner/return/flightcode=
+    @PostMapping("return/{flightCode}")
+    public ModelAndView postToBtPlanner(@PathVariable String flightCode, HttpSession sess){
+        ModelAndView mav = new ModelAndView();
+        System.out.println("post flightcode for arrivial");
+
+        User user = sSvc.getSessionPostLogin(sess);
+        if (user == null) {
+            mav.setViewName("redirect:/login");
+            return mav;
+        }
+        System.out.println(user);
+
+        //find flight through flightCode
+        FlightInfo btFlight = fSvc.getFlightObj(flightCode);
+        //save flight to userAcct
+        fSvc.saveFlightToAcct(btFlight, user, BACK_TO);
+
+        System.out.println(btFlight);
+        
+        mav.addObject(USER_INFO, user);
+        mav.setViewName("redirect:/travel_planner");
+        return mav;
+    }
+
+    @GetMapping
+    public ModelAndView getTravelPlanner(HttpSession sess ) {
         ModelAndView mav = new ModelAndView();
         System.out.println("get travel planner");
         
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
-            mav.setViewName("login");
+            mav.setViewName("redirect:/login");
             return mav;
         }
         System.out.println(user);
-
-        //fetch flight detail
+        //fetch flight detail from acct
+        FlightInfo ftFlight = fSvc.retrieveFlightFromAcct(user, FROM_TO);
+        FlightInfo btFlight = fSvc.retrieveFlightFromAcct(user, BACK_TO);
         
-        //test input
-
         mav.addObject(USER_INFO, user);
+        mav.addObject(FROM_TO, ftFlight);
+        mav.addObject(BACK_TO, btFlight);
         mav.setViewName("travel_planner");
         return mav;
     }

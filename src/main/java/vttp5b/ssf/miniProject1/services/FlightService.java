@@ -39,6 +39,13 @@ public class FlightService {
     private static final String FLIGHT_URL = "https://api.aviationstack.com/v1/flights";
 
     //retrieve flight from user acct
+    public FlightInfo retrieveFlightFromAcct(User user, String hkey) {
+        String f = plannerRepo.getFlight(user, hkey);
+        
+        FlightInfo flight = FlightInfo.parseToFlightInfoObj(f);
+        System.out.println("parsing at service" + flight);
+        return flight;
+    }
 
     //save flight to user acct in redis
     public void saveFlightToAcct(FlightInfo flight, User user, String hkey) {

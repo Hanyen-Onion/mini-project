@@ -1,7 +1,5 @@
 package vttp5b.ssf.miniProject1.models;
 
-import java.util.Arrays;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 

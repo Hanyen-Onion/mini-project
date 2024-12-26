@@ -9,7 +9,7 @@
 <body>
     <h1>Find flight</h1>
     <div>
-        <form method="POST" action="/flight">
+        <form method="POST" action="/return">
             <table>
                 <tr>
                     <td>From:</td>
@@ -70,7 +70,7 @@
                             </table>
                         </td>
                         <td name="flyDate" data-th-text="${obj.flightDate}"></td>
-                        <form method="POST" data-th-action="@{/travel_planner/{flightCode}(flightCode=${obj.flightCode})}">
+                        <form method="POST" data-th-action="@{/travel_planner/return/{flightCode}(flightCode=${obj.flightCode})}">
                             <td>
                                 <button type="submit">
                                     Add
@@ -78,25 +78,7 @@
                             </td>
                         </form>
                     </tr>
-                    <!-- no nested table version -->
-                    <!-- <div data-th-each="obj:${flightInfoList}">
-                        <tr>
-                            <th rowspan="2" name="flightCode" data-th-field="flyCode" data-th-text="${obj.flightCode}"></td>
-                           
-                            <td name="departTime" data-th-field="departTime" data-th-text="${obj.departureTime}"></td>
-                            <td></td>
-                            <td name="arriveTime" data-th-field="arriveTime" data-th-text="${obj.arrivalTime}"></td>
-                            <td rowspan="2" name="flyDate" data-th-field="flyDate" data-th-text="${obj.flightDate}"></td>
-                            <td rowspan="2">
-                                <button type="submit">Add</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td name="departAirport" data-th-field="departAirport" data-th-text="${obj.departureAirport}"></td>
-                            <td>---------</td>
-                            <td name="arriveAirport" data-th-field="arriveAirport" data-th-text="${obj.arrivalAirport}"></td>
-                        </tr>
-                    </div>  -->
+
                 </tbody>
             </table>
     </div>

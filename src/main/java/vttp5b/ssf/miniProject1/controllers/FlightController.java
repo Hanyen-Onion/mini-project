@@ -21,9 +21,8 @@ import vttp5b.ssf.miniProject1.models.User;
 import vttp5b.ssf.miniProject1.services.FlightService;
 import vttp5b.ssf.miniProject1.services.SessionService;
 
-
 @Controller
-@RequestMapping("/flight")
+@RequestMapping()
 public class FlightController {
 
     @Autowired
@@ -33,14 +32,14 @@ public class FlightController {
     private SessionService sSvc;
 
     // flight -> flight , returns filter
-    @PostMapping()
+    @PostMapping("depart")
     public ModelAndView postSearch(@RequestBody MultiValueMap<String, String> searchParams, @ModelAttribute FlightInfo flightInfo, HttpSession sess) {
         ModelAndView mav = new ModelAndView();
         System.out.println("post search");
 
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
-            mav.setViewName("login");
+            mav.setViewName("redirect:/login");
             return mav;
         }
         System.out.println(user);
@@ -55,30 +54,51 @@ public class FlightController {
         
         mav.addObject("flightInfoList", fSvc.filter(allFlightInfoList, params));
         mav.addObject(USER_INFO, user);
-        mav.setViewName("/flight");
+        mav.setViewName("depart");
 
         return mav;
     }
 
-    //get unflitered list
-    @GetMapping(path={"", "/depart", "/return"})
-    public ModelAndView getFlight(HttpSession sess) {
+    // //get unflitered list
+    @GetMapping("/return")
+    public ModelAndView getReturn(HttpSession sess) {
         ModelAndView mav = new ModelAndView();
         System.out.println("get flight");
 
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
-            mav.setViewName("login");
+            mav.setViewName("redirect:/login");
             return mav;
         }
-       
         System.out.println(user);
 
         List<FlightInfo> allFlightInfoList = fSvc.getFlightList();
         
         mav.addObject("flightInfoList", allFlightInfoList);
         mav.addObject(USER_INFO, user);
-        mav.setViewName("flight");
+        mav.setViewName("return");
+
+        return mav;
+    }
+
+    //get unflitered list
+    @GetMapping("/depart")
+    public ModelAndView getDepart(HttpSession sess) {
+        ModelAndView mav = new ModelAndView();
+        System.out.println("get flight");
+
+        User user = sSvc.getSessionPostLogin(sess);
+        if (user == null) {
+            mav.setViewName("redirect:/login");
+            return mav;
+        }
+        System.out.println(user);
+
+        List<FlightInfo> allFlightInfoList = fSvc.getFlightList();
+        
+        mav.addObject("flightInfoList", allFlightInfoList);
+        mav.addObject(USER_INFO, user);
+        mav.setViewName("depart");
 
         return mav;
     }

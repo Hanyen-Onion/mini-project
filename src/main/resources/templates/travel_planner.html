@@ -16,70 +16,71 @@
             <!-- Fly off -->
             <!-- <div data-th-else=""> -->
                 <div class="col-5">
-                    <!-- <a data-th-href="@{/flight}" > -->
-                        <button formmethod="GET" formaction="@{/flight/depart}" type="submit" class="btn btn-outline-primary">
-                            <table class="">
+                    <a data-th-href="@{/depart}">
+                        <button type="button" class="btn btn-outline-primary">
+                            <table class="" data-th-object="${fromTo}">
                                 <thead>
                                     <tr>
                                         <th><span class="badge text-bg-secondary">Departure</span></th>
                                     </tr>
                                     <tr>
-                                        <th><span name="flightCode" data-th-text="${obj}"></th>
+                                        <th><span name="flightCode" data-th-text="*{flightCode}"></th>
                                         <th></th>
                                         <!-- Fri, 20/2/2025 -->
-                                        <th colspan="2"><span name="departureDate" data-th-text="${departureDate}"></span></th>
+                                        <th colspan="2"><span name="departureDate" data-th-text="*{flightDate}"></span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><span name="departureAirport" data-th-text="${departureAirport}"></span></td>
+                                        <td><span name="departureAirport" data-th-text="*{departureAirport}"></span></td>
                                         <td rowspan="2" class="align-middle">---</td>
-                                        <td><span name="arrivalAirport" data-th-text="${arriveAirport}"></span></td>
+                                        <td><span name="arrivalAirport" data-th-text="*{arrivalAirport}"></span></td>
                                     </tr>
                                     <tr>
-                                        <td><span name="departureTime" data-th-text="${departureTime}"></span></td>
-                                        <td><span name="arrivalTime" data-th-text="${arrivalTime}"></span></td>
+                                        <td><span name="departureTime" data-th-text="*{departureTime}"></span></td>
+                                        <td><span name="arrivalTime" data-th-text="*{arrivalTime}"></span></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </button>
-                    <!-- </a> -->
+                    </a>
                 </div>  
             </div>
 
             <!-- fly Back -->
             <div class="col-5">
-                <a data-th-href="@{/flight}">
+                <a data-th-href="@{/return}">
                     <button type="button" class="btn btn-outline-primary">
-                        <table class="">
+                        <table class="" data-th-object="${backTo}">
                             <thead>
                                 <tr>
                                     <th><span class="badge text-bg-secondary">Arrival</span></th>
                                 </tr>
                                 <tr>
-                                    <th name="flightCode">TEST123</th>
+                                    <th><span name="flightCode" data-th-text="*{flightCode}"></th>
                                     <th></th>
-                                    <th colspan="2">Fri, 20/2/2025</th>
+                                    <!-- Fri, 20/2/2025 -->
+                                    <th colspan="2"><span name="departureDate" data-th-text="*{flightDate}"></span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>SIN</td>
+                                    <td><span name="departureAirport" data-th-text="*{departureAirport}"></span></td>
                                     <td rowspan="2" class="align-middle">---</td>
-                                    <td>TPE</td>
+                                    <td><span name="arrivalAirport" data-th-text="*{arrivalAirport}"></span></td>
                                 </tr>
                                 <tr>
-                                    <td>10.20pm</td>
-                                    <td>04.30am</td>
+                                    <td><span name="departureTime" data-th-text="*{departureTime}"></span></td>
+                                    <td><span name="arrivalTime" data-th-text="*{arrivalTime}"></span></td>
                                 </tr>
                             </tbody>
                         </table>
                     </button>
                 </a>
-            </div>
+            </div>  
         </div>
     </div>
-
+    
     <br>
     <hr class="solid">
     <br>
