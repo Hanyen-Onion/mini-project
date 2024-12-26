@@ -17,7 +17,7 @@ import vttp5b.ssf.miniProject1.services.FlightService;
 import vttp5b.ssf.miniProject1.services.SessionService;
 
 @Controller
-@RequestMapping("/travel_planner")
+@RequestMapping()
 public class PlannerController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class PlannerController {
     private static final String BACK_TO = "backTo";
 
     // depart -> tavel_planner/departure/flightcode
-    @PostMapping("depart/{flightCode}")
+    @PostMapping("travel_planner/depart/{flightCode}")
     public ModelAndView postFtToPlanner(@PathVariable String flightCode, HttpSession sess){
         ModelAndView mav = new ModelAndView();
         System.out.println("post flightcode for depature");
@@ -55,7 +55,7 @@ public class PlannerController {
     }
 
     // return -> tavel_planner/return/flightcode=
-    @PostMapping("return/{flightCode}")
+    @PostMapping("travel_planner/return/{flightCode}")
     public ModelAndView postToBtPlanner(@PathVariable String flightCode, HttpSession sess){
         ModelAndView mav = new ModelAndView();
         System.out.println("post flightcode for arrivial");
@@ -79,7 +79,7 @@ public class PlannerController {
         return mav;
     }
 
-    @GetMapping
+    @GetMapping("travel_planner")
     public ModelAndView getTravelPlanner(HttpSession sess ) {
         ModelAndView mav = new ModelAndView();
         System.out.println("get travel planner");
@@ -93,11 +93,21 @@ public class PlannerController {
         //fetch flight detail from acct
         FlightInfo ftFlight = fSvc.retrieveFlightFromAcct(user, FROM_TO);
         FlightInfo btFlight = fSvc.retrieveFlightFromAcct(user, BACK_TO);
+        System.out.println(ftFlight);
+        System.out.println(btFlight);
         
         mav.addObject(USER_INFO, user);
         mav.addObject(FROM_TO, ftFlight);
         mav.addObject(BACK_TO, btFlight);
         mav.setViewName("travel_planner");
+        return mav;
+    }
+
+    @GetMapping("save")
+    public ModelAndView getSave(HttpSession sess) {
+        ModelAndView mav = new ModelAndView();
+        sess.invalidate();
+        mav.setViewName("save");
         return mav;
     }
     

@@ -11,50 +11,18 @@
     <br>
     <!-- flight itinerary -->
     <h3>Flight Info</h3>
-    <div class="container text-center">
-        <div class="row justify-content-around">
-            <!-- Fly off -->
-            <!-- <div data-th-else=""> -->
-                <div class="col-5">
-                    <a data-th-href="@{/depart}">
-                        <button type="button" class="btn btn-outline-primary">
-                            <table class="" data-th-object="${fromTo}">
-                                <thead>
-                                    <tr>
-                                        <th><span class="badge text-bg-secondary">Departure</span></th>
-                                    </tr>
-                                    <tr>
-                                        <th><span name="flightCode" data-th-text="*{flightCode}"></th>
-                                        <th></th>
-                                        <!-- Fri, 20/2/2025 -->
-                                        <th colspan="2"><span name="departureDate" data-th-text="*{flightDate}"></span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><span name="departureAirport" data-th-text="*{departureAirport}"></span></td>
-                                        <td rowspan="2" class="align-middle">---</td>
-                                        <td><span name="arrivalAirport" data-th-text="*{arrivalAirport}"></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span name="departureTime" data-th-text="*{departureTime}"></span></td>
-                                        <td><span name="arrivalTime" data-th-text="*{arrivalTime}"></span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </button>
-                    </a>
-                </div>  
-            </div>
 
-            <!-- fly Back -->
+
+        <div>
+            <!-- Fly off -->
             <div class="col-5">
-                <a data-th-href="@{/return}">
+
+                <a data-th-href="@{/depart}" data-th-if="${fromTo != null}">
                     <button type="button" class="btn btn-outline-primary">
-                        <table class="" data-th-object="${backTo}">
+                        <table class="" data-th-object="${fromTo}">
                             <thead>
                                 <tr>
-                                    <th><span class="badge text-bg-secondary">Arrival</span></th>
+                                    <th><span class="badge text-bg-secondary">Departure</span></th>
                                 </tr>
                                 <tr>
                                     <th><span name="flightCode" data-th-text="*{flightCode}"></th>
@@ -77,25 +45,123 @@
                         </table>
                     </button>
                 </a>
+
+                <a data-th-href="@{/depart}" data-th-unless="${fromTo != null}">
+                    <button type="button" class="btn btn-outline-primary">
+                        <table class="" >
+                            <thead>
+                                <tr>
+                                    <th><span class="badge text-bg-secondary">Departure</span></th>
+                                </tr>
+                                <tr>
+                                    <th><span name="flightCode">TEST123</th>
+                                    <th></th>
+                                    <!-- Fri, 20/2/2025 -->
+                                    <th colspan="2"><span name="departureDate">000 00 000 00</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span name="departureAirport">ABC</span></td>
+                                    <td rowspan="2" class="align-middle">---</td>
+                                    <td><span name="arrivalAirport">BCD</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span name="departureTime">00:00 00</span></td>
+                                    <td><span name="arrivalTime">00:00 00</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </button>
+                </a>
+
             </div>  
-        </div>
-    </div>
-    
+
+            <!-- fly Back -->
+            <div class="col-5">
+
+                <a data-th-href="@{/return}" data-th-if="${backTo != null}">
+                    <button type="button" class="btn btn-outline-primary">
+                        <table class="" data-th-object="${backTo}">
+                            <thead>
+                                <tr>
+                                    <th><span class="badge text-bg-secondary">Arrival</span></th>
+                                </tr>
+                                <tr>
+                                    <th><span name="flightCode" data-th-text="*{flightCode}"></th>
+                                    <th></th>
+                                    
+                                    <th colspan="2"><span name="departureDate" data-th-text="*{flightDate}"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span name="departureAirport" data-th-text="*{departureAirport}"></span></td>
+                                    <td rowspan="2" class="align-middle">---</td>
+                                    <td><span name="arrivalAirport" data-th-text="*{arrivalAirport}"></span></td>
+                                </tr>
+                                <tr>
+                                    <td><span name="departureTime" data-th-text="*{departureTime}"></span></td>
+                                    <td><span name="arrivalTime" data-th-text="*{arrivalTime}"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </button>
+                </a>
+
+                <a data-th-href="@{/return}" data-th-unless="${backTo != null}">
+                    <button type="button" class="btn btn-outline-primary">
+                        <table class="" data-th-object="${backTo}">
+                            <thead>
+                                <tr>
+                                    <th><span class="badge text-bg-secondary">Arrival</span></th>
+                                </tr>
+                                <tr>
+                                    <th><span name="flightCode">TEST123</th>
+                                    <th></th>
+                                    
+                                    <th colspan="2"><span name="departureDate">000, 00 000 00</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span name="departureAirport">ABC</span></td>
+                                    <td rowspan="2" class="align-middle">---</td>
+                                    <td><span name="arrivalAirport">DEF</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span name="departureTime">00:00 00</span></td>
+                                    <td><span name="arrivalTime">00:00 00</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </button>
+                </a>
+
+            </div>
+        </div> 
+
+
     <br>
     <hr class="solid">
     <br>
     <!-- daily itinerary cards -->
-    <a data-th-href="@{/card}">
-        <button class="card" style="width: 10rem;">
-            <div class="card-body">
-                Day1
-            </div>
-        </button>
-    </a>
+    <div>
+        <a data-th-href="@{/card}">
+            <button class="card" style="width: 10rem;">
+                <div class="card-body">
+                    Day1
+                </div>
+            </button>
+        </a>
+
+    </div>
+
 
     <hr>
     <div>
-        <button>save</button>
+        <a data-th-href="@{/save}"><button>save</button></a>
+        
     </div>
    
 

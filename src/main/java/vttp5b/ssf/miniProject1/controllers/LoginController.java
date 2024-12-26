@@ -45,7 +45,8 @@ public class LoginController {
             return mav;
         }
         // if session is new and obj is still empty
-        if ((user.getUsername() == null)&&(user.getPassword()==null)) {
+        if ((user.getUsername() == null)&&(user.getPassword()==null)
+                ||(user.getUserId() == null) ) {
             //find user info from redis and populate sess
             User rUser = sSvc.getUserWithLogin(loginForm);
             user.setUsername(rUser.getUsername());

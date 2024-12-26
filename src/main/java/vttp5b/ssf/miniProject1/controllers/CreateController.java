@@ -44,7 +44,9 @@ public class CreateController {
         }
 
         //if session is new and obj is still empty
-        if ((user.getUsername() == null)&&(user.getPassword()==null)) {
+        if ((user.getUsername() == null)&&(user.getPassword()==null)
+                ||(user.getUserId() == null)) {
+                    
             user.setUsername(userForm.getUsername());
             user.setPassword(userForm.getPassword());
             user.setUserId(sess.getId());

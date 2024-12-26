@@ -4,6 +4,7 @@ import static vttp5b.ssf.miniProject1.Util.USER_INFO;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -51,13 +52,21 @@ public class PlannerRepository {
         template.expire(key,seconds,TimeUnit.SECONDS); //300s (5min) 86,400s(1day)
     }
 
-    public Boolean isKeyExist(String key) {
+    
+    //exists
+    public Boolean isKeyExist(String key) { //check for key exist
         return template.hasKey(key);
     }
 
-    //hset key(user:username_id) ArrayName(Days)
-    public void saveItineraryToRedis(User userInfo, DayItinerary itinerary) {
+    // //hset key(user:username_id) ArrayName(Days)
+    // public void saveItineraryToRedis(User userInfo, DayItinerary itinerary) {
 
+    // }
+
+    //check for hkey exist 
+    //hexists
+    public Boolean ishKeyExist(String key, String hkey) {
+        return template.opsForHash().hasKey(key, hkey);
     }
     
 
@@ -69,8 +78,14 @@ public class PlannerRepository {
         HashOperations<String, String, String> hashOps = template.opsForHash();
 
         String fString = hashOps.get(User.getUserRedisKey(user), hkey);
-        return fString;
+
+        if (ishKeyExist(User.getUserRedisKey(user), hkey)) {
+            return fString;
+        }
+        return null;
     }
+
+
 
     //hset key(user:username_id) flightInfo                     //hashkey name should be fromTo, backTo
     public void saveFlightToRedis(User userInfo, FlightInfo flightInfo, String hkey) {

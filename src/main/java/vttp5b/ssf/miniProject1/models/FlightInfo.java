@@ -75,7 +75,12 @@ public class FlightInfo {
     //parse string back to obj
     public static FlightInfo parseToFlightInfoObj(String string) {
         FlightInfo flightInfo = new FlightInfo();
-
+        
+        if (string == null) {
+            System.out.println("empty flightObj cannot be parse");
+            return null;
+        }
+        
         String[] fields = string.split("&");
         String[] kv;
 

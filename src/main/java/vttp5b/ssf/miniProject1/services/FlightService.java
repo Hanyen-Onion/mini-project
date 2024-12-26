@@ -42,9 +42,12 @@ public class FlightService {
     public FlightInfo retrieveFlightFromAcct(User user, String hkey) {
         String f = plannerRepo.getFlight(user, hkey);
         
-        FlightInfo flight = FlightInfo.parseToFlightInfoObj(f);
-        System.out.println("parsing at service" + flight);
-        return flight;
+        if (f != null) {
+            FlightInfo flight = FlightInfo.parseToFlightInfoObj(f);
+            System.out.println("parsing at service" + flight);
+            return flight;
+        }
+        return null;
     }
 
     //save flight to user acct in redis
