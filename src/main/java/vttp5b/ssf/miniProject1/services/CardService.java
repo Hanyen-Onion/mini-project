@@ -34,24 +34,26 @@ public class CardService {
     private static final String ADDRESS_URL = "https://places.googleapis.com/v1/places:searchText";
     private static final String FIELD_MASK_PARAM = "places.formattedAddress,places.id,places.displayName.text,places.location,places.googleMapsUri";
 
-    public String getMapEmbeddedUrl(DayItinerary day) {
+    public void get() {
+        
+    }
 
+    public String getMapEmbeddedUrl(DayItinerary day) {
+        
         //build url 
         String url = UriComponentsBuilder
             .fromUriString(MAP_URL)
             .queryParam("key", googleApi)
             .queryParam("q", "place_id:" + day.getPlaceId())
             .toUriString();
-    
         return url;
     }
     
     public List<DayItinerary> getTextSearchApi(AddressSearchParams param) {
 
-        //build url 
+        //build json to send to google
         JsonObject json = Json.createObjectBuilder()
-            .add("textQuery", param.textQuery())
-            //.add("textQuery", "10 Paya Lebar Rd, #B1-28 PLQ Mall")
+            .add("textQuery", param.query())
             .build();
         
         //POST
@@ -72,7 +74,7 @@ public class CardService {
             return getAllPlaceDetail(payload);
 
         } catch (Exception ex) {
-            System.out.println("responseEntity got problem at FlightService");
+            System.out.println("responseEntity got problem at MapService");
             ex.printStackTrace();
         }
         return null;
@@ -86,17 +88,15 @@ public class CardService {
         JsonObject jsonObj = reader.readObject();
         JsonArray placesArray = jsonObj.getJsonArray("places");
 
-        System.out.println(placesArray);
-
         for (int i = 0; i < placesArray.size(); i++) {
             JsonObject resultObj = placesArray.getJsonObject(i);
 
-            String address = resultObj.getString("formattedAddress");
-            String displayName = resultObj.getString("displayName");
-            String lat = resultObj.getJsonObject("location").getString("latitude");
-            String lon = resultObj.getJsonObject("location").getString("longitude");
-            String googleMapUrl = resultObj.getString("googleMapsUri");
-            String placeId = resultObj.getString("id");
+            String address = resultObj.getString("formattedAddress", null);
+            String displayName = resultObj.getString("displayName", null);
+            String lat = resultObj.getJsonObject("location").getString("latitude", null);
+            String lon = resultObj.getJsonObject("location").getString("longitude", null);
+            String googleMapUrl = resultObj.getString("googleMapsUri", null);
+            String placeId = resultObj.getString("id", null);
 
             //add to object
             DayItinerary dayObj = new DayItinerary();
@@ -107,9 +107,14 @@ public class CardService {
             dayObj.setLon(lon);
             dayObj.setPlaceId(placeId);
 
+            // //get mapApi
+            String eMapUrl = getMapEmbeddedUrl(dayObj);
+            dayObj.setEmbedMapUrl(eMapUrl);
             //add to list
             addressInfoList.add(dayObj);
         }
+        //save to redis
+        pRepo.cacheMapList(addressInfoList);
         return addressInfoList;
     }
 

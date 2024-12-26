@@ -11,7 +11,11 @@ public class DayItinerary {
     private String googleMapUrl;
     private String placeId;
 
+    private String embedMapUrl;
     private String date;
+
+    public String getEmbedMapUrl() {    return embedMapUrl;}
+    public void setEmbedMapUrl(String embedMapUrl) {    this.embedMapUrl = embedMapUrl;}
     
     public String getTime() {    return time;}
     public void setTime(String time) {    this.time = time;}
@@ -51,6 +55,6 @@ public class DayItinerary {
     @Override
     public String toString() {
         return "time=" + time + "&address=" + address + "&displayName=" + displayName + "&lat=" + lat
-                + "&lon=" + lon + "&googleMapUrl=" + googleMapUrl + "&placeId=" + placeId + "&date=" + date;
+                + "&lon=" + lon + "&googleMapUrl=" + googleMapUrl + "&placeId=" + placeId + "&date=" + date + "&embedMapUrl=" + embedMapUrl ;
     }
 }

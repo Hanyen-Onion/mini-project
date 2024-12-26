@@ -146,8 +146,15 @@
     <hr class="solid">
     <br>
     <!-- daily itinerary cards -->
-    <div>
-        <a data-th-href="@{/card}">
+    <!-- <div data-th-each="card : ${DaysList}" > -->
+        <a data-th-href="@{/card}" data-th-if="${card != null}">
+            <button class="card" style="width: 10rem;">
+                <div class="card-body">
+                    Day1
+                </div>
+            </button>
+        </a>
+        <a data-th-href="@{/card}" data-th-unless="${card != null}">
             <button class="card" style="width: 10rem;">
                 <div class="card-body">
                     Day1
@@ -155,7 +162,7 @@
             </button>
         </a>
 
-    </div>
+    <!-- </div> -->
 
 
     <hr>

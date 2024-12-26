@@ -181,7 +181,7 @@ public class FlightService {
             fInfoList.add(flightInfo);
             //System.out.println(flightInfo);
         }
-        plannerRepo.cacheFlight(fInfoList);
+        plannerRepo.cacheFlights(fInfoList);
         return fInfoList;
     }
 
