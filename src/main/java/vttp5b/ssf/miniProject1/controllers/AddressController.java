@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +28,8 @@ public class AddressController {
     @Autowired
     private SessionService sSvc;
 
-    @PostMapping 
-    public ModelAndView postAddressSearch(@RequestBody MultiValueMap<String, String> form) {
+    @PostMapping("/{date}")
+    public ModelAndView postAddressSearch(@RequestBody MultiValueMap<String, String> form, @PathVariable(required = false) String date) {
         ModelAndView mav = new ModelAndView();
         //User user = sSvc.getSessionPostLogin(sess);
         System.out.println("post search address");
@@ -43,18 +44,20 @@ public class AddressController {
         //save to redis
 
         mav.addObject("time", params.time());
+        mav.addObject("date", date);
         mav.addObject("searchResult", searchResult);
-        mav.setViewName("search_address");
+        mav.setViewName("redirect:/search_address/{date}");
         return mav;
     }
 
-    @GetMapping
-    public ModelAndView getAddressSearch() {
+    @GetMapping("/{date}")
+    public ModelAndView getAddressSearch(@PathVariable(required = false) String date) {
         ModelAndView mav = new ModelAndView();
         //User user = sSvc.getSessionPostLogin(sess);
         System.out.println("get search address");
+        
+        mav.addObject("date", date);
         mav.setViewName("search_address");
-
         return mav;
     }
 }

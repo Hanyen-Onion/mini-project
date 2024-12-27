@@ -23,7 +23,7 @@
                                     <td>
                                         <input type="text" name="textQuery">
                                     </td>
-                                    <td><button type="submit" formmethod="POST" formaction="/search_address">Search</button></td>
+                                    <td><button type="submit" formmethod="POST" data-th-formaction="@{/search_address/{date}(date=${date})}">Search</button></td>
                                 </tr>
                                 <tr>
                                     <th>Time:</th>
@@ -32,7 +32,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><button type="submit" formmethod="POST" formaction="/card">Add/Edit</button></td>
+                                    <td><button type="submit" formmethod="POST" data-th-formaction="@{/card/{date}(date=${date})}">Add/Edit</button></td>
                                 </tr>
                             </tbody>
                         </table>
