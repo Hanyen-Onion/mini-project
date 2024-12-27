@@ -29,6 +29,17 @@ public class PlannerController {
     private static final String FROM_TO = "fromTo";
     private static final String BACK_TO = "backTo";
 
+    @GetMapping("travel_planner{}")
+    public ModelAndView getDateForCard() {
+        ModelAndView mav = new ModelAndView();
+        System.out.println("get travel planner");
+    
+
+
+        mav.setViewName("travel_planner");
+        return mav;
+    }
+
     // depart -> tavel_planner/departure/flightcode
     @PostMapping("travel_planner/depart/{flightCode}")
     public ModelAndView postFtToPlanner(@PathVariable String flightCode, HttpSession sess){
@@ -79,7 +90,7 @@ public class PlannerController {
         return mav;
     }
 
-    @GetMapping("travel_planner")
+    @GetMapping(path={"travel_planner"})
     public ModelAndView getTravelPlanner(HttpSession sess ) {
         ModelAndView mav = new ModelAndView();
         System.out.println("get travel planner");
@@ -90,11 +101,10 @@ public class PlannerController {
             return mav;
         }
         System.out.println(user);
+        
         //fetch flight detail from acct
         FlightInfo ftFlight = fSvc.retrieveFlightFromAcct(user, FROM_TO);
         FlightInfo btFlight = fSvc.retrieveFlightFromAcct(user, BACK_TO);
-        System.out.println(ftFlight);
-        System.out.println(btFlight);
         
         mav.addObject(USER_INFO, user);
         mav.addObject(FROM_TO, ftFlight);

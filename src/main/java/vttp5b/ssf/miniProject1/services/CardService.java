@@ -3,6 +3,7 @@ package vttp5b.ssf.miniProject1.services;
 import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +35,26 @@ public class CardService {
     private static final String ADDRESS_URL = "https://places.googleapis.com/v1/places:searchText";
     private static final String FIELD_MASK_PARAM = "places.formattedAddress,places.id,places.displayName.text,places.location,places.googleMapsUri";
 
-    public void get() {
-        
+    // //cache search result
+    // public void cacheAddrList(List<DayItinerary>) {
+    //     pRepo.cacheAddrList(null);
+    // }
+    
+    public List<DayItinerary> getCachedMaps(AddressSearchParams params) {
+           
+        Set<String> redisList = pRepo.retrieveAddrList();
+        List<DayItinerary> addrList = new LinkedList<>();
+
+        if ((redisList == null)||(redisList.isEmpty())) {
+            return null;
+        }
+
+        redisList.stream().forEach(o -> {
+            //parse
+            DayItinerary obj = DayItinerary.parseToAddrObj(o);
+            addrList.add(obj);
+        });
+        return addrList;
     }
 
     public String getMapEmbeddedUrl(DayItinerary day) {
@@ -113,8 +132,6 @@ public class CardService {
             //add to list
             addressInfoList.add(dayObj);
         }
-        //save to redis
-        pRepo.cacheMapList(addressInfoList);
         return addressInfoList;
     }
 

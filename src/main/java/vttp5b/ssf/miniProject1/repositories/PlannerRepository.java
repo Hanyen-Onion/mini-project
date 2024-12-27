@@ -4,7 +4,6 @@ import static vttp5b.ssf.miniProject1.Util.USER_INFO;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -24,16 +23,16 @@ public class PlannerRepository {
     private RedisTemplate<String, String> template;
 
     private static final String FLIGHT_LIST = "flightList";
-    private static final String MAP_LIST = "mapList";
+    private static final String ADDR_LIST = "addressList";
 
 //mapList
 
-    //smembers key(mapList)
-    public Set<String> retrieveMapList() {
+    //smembers key(addressList)
+    public Set<String> retrieveAddrList() {
         SetOperations<String, String> setOps = template.opsForSet();
 
-        if (isKeyExist(MAP_LIST)) {
-            Set<String> redisList = setOps.members(MAP_LIST);
+        if (isKeyExist(ADDR_LIST)) {
+            Set<String> redisList = setOps.members(ADDR_LIST);
             return redisList;
         }
         System.out.println("no map list in redis");
@@ -41,10 +40,10 @@ public class PlannerRepository {
     }
 
     //sadd key(mapList)
-    public void cacheMapList(List<DayItinerary> list) {
+    public void cacheAddrList(List<DayItinerary> list) {
         SetOperations<String, String> setOps = template.opsForSet();
         
-        list.forEach(m -> setOps.add(MAP_LIST, m.toString()));
+        list.forEach(m -> setOps.add(ADDR_LIST, m.toString()));
     }
 
 //flightList

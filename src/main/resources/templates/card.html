@@ -8,10 +8,10 @@
 </head>
 <body>
 
-    <h1>Day:what</h1>
+    <h1>Day:what<span></span></h1>
 
     <div class="list-group">
-        <a data-th-href="@{/search_address}" class="list-group-item list-group-item-action" aria-current="true">
+        <a data-th-href="@{/search_address/{date}(date=${date})}" class="list-group-item list-group-item-action" aria-current="true">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Location name</h5>
                 <small>time 9.30am</small>
@@ -20,7 +20,7 @@
             <small>And some small print.</small>
         </a>
     </div>
-
+    <!-- empty -->
     <div class="list-group">
         <a data-th-href="@{/search_address}" class="list-group-item list-group-item-action" aria-current="true">
             <div class="d-flex w-100 justify-content-between">

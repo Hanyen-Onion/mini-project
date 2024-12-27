@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" data-th-action="@{/test2/{date}(date=${date})}">
+        <h1><span data-th-text="${date}"></span></h1>
+        <button type="submit" >refresh</button>
+    </form>
+
+    <a data-th-href="@{/test2/save/{date}(date=${date})}">get save</a>
+    <form method="POST" data-th-action="@{/test2/save/{date}(date=${date})}">
+
+        <button type="submit" >next</button>
+    </form>
+    
+    <a href="/test">Back</a>
+</body>
+</html>

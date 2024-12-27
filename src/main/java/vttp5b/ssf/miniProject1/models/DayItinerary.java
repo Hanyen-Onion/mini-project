@@ -41,7 +41,6 @@ public class DayItinerary {
     public String getPlaceId() {    return placeId;}
     public void setPlaceId(String placeId) {    this.placeId = placeId;}
 
-    //sessionId=obj1, obj2 , obj3
     //should get from the controller
     public static String arrayForEachDay() {
 
@@ -52,9 +51,60 @@ public class DayItinerary {
         return null;
     }
 
+    public static DayItinerary parseToAddrObj(String string) {
+        DayItinerary itin = new DayItinerary();
+
+        if (string == null) {
+            System.out.println("string is null");
+            return null;
+        }
+
+        String[] fields = string.split("&");
+        String[] kv;
+        
+        for(int i = 0; i < fields.length; i++) {
+            kv = fields[i].split("=");
+   
+            if (kv.length == 2) 
+            switch (kv[0]) {
+                case "time":
+                    itin.setTime(kv[1]);
+                    break;
+                case "address":
+                    itin.setAddress(kv[1]);
+                    break;
+                case "displayName":
+                    itin.setDisplayName(kv[1]);
+                    break;
+                case "embedMapUrl":
+                    itin.setEmbedMapUrl(kv[1]);
+                    break;
+                case "googleMapUrl":
+                    itin.setGoogleMapUrl(kv[1]);
+                    break;
+                case "lat":
+                    itin.setLat(kv[1]);
+                    break;
+                case "lon":
+                    itin.setLon(kv[1]);
+                    break;
+                case "placeId":
+                    itin.setPlaceId(kv[1]);
+                    break;
+                case "date":
+                    itin.setDate(kv[1]);
+                    break;
+                default:
+                    System.out.println("error with user parsing string");
+                    break;
+            }
+        }
+        return itin;
+    }
+
     @Override
     public String toString() {
-        return "time=" + time + "&address=" + address + "&displayName=" + displayName + "&lat=" + lat
-                + "&lon=" + lon + "&googleMapUrl=" + googleMapUrl + "&placeId=" + placeId + "&date=" + date + "&embedMapUrl=" + embedMapUrl ;
+        return "time=%sT".formatted(date) + time + "&address=" + address + "&displayName=" + displayName + "&lat=" + lat
+                + "&lon=" + lon + "&googleMapUrl=" + googleMapUrl + "&placeId=" + placeId + "&embedMapUrl=" + embedMapUrl ;
     }
 }
