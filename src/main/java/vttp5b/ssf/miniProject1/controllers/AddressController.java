@@ -47,7 +47,7 @@ public class AddressController {
         String parsedTime = parseItinTime(date, time);
         searchResult.forEach(itin -> itin.setTime(parsedTime));
    
-        //save to redis
+        //cache to redis
         cardSvc.cacheAddrList(searchResult);
         
         mav.addObject("time", time);

@@ -27,7 +27,6 @@ public class PlannerRepository {
 
 //tempAddrList
 
-
     //smembers key(addrList)
     public Set<String> retrieveTempAddrList() {
         SetOperations<String, String> setOps = template.opsForSet();
@@ -61,34 +60,50 @@ public class PlannerRepository {
         expire(FLIGHT_LIST, 86400);
     }
 
-//general
+//dayList
 
-    //expire                                            
-    public void expire(String key, int seconds) {
-        template.expire(key,seconds,TimeUnit.SECONDS); //300s (5min) 86,400s(1day)
-    }
-    
-    //exists
-    public Boolean isKeyExist(String key) { //check for key exist
-        return template.hasKey(key);
+    //keys *d:username*
+    public Set<String> getListsOfDays(String username) {
+        Set<String> itins = template.keys("*d:"+username+"*");
+        return itins;
     }
 
-    // //hset key(user:username_id) ArrayName(Days)
-    // public void saveItineraryToRedis(User userInfo, DayItinerary itinerary) {
+    //smembers key(d:name_date))
+    public Set<String> retrieveDate(String date, String username) {
+        SetOperations<String, String> setOps = template.opsForSet();
+        Set<String> redisSet = setOps.members("d:"+ username +"_"+ date);
 
-    // }
-
-    
-    //hexists                               //check for hkey exist 
-    public Boolean ishKeyExist(String key, String hkey) {
-        return template.opsForHash().hasKey(key, hkey);
+        return redisSet;
     }
-    
 
+    //sadd key(d:name_date) (member)dayObj
+    public void saveToDate(DayItinerary itin, String date, String username) {
+        SetOperations<String, String> setOps = template.opsForSet();
+        
+        setOps.add("d:"+ username +"_"+ date, itin.toString());
+    }
 
 //user
 
-    //hset key(user:username_id) date(init_list)
+    //hget key(user:username_id) itinerary
+    public String getDayListFromUser(User user, String hkey) {
+        HashOperations<String, String, String> hashOps = template.opsForHash();
+
+        String dString = hashOps.get(User.getUserRedisKey(user), hkey);
+
+        if (ishKeyExist(User.getUserRedisKey(user), hkey)) {
+            return dString;
+        }
+        return null;
+    }
+
+    //hset key(d:username) itinerary(listOfDays)
+    public void saveItineraryToRedis(User user) {
+        Set<String> itins = getListsOfDays(user.getUsername());
+        String i = itins.toString();
+
+        template.opsForHash().put(User.getUserRedisKey(user), itins, i);
+    }
 
     //hget key(user:username_id) flightInfo
     public String getFlight(User user, String hkey) {
@@ -140,4 +155,21 @@ public class PlannerRepository {
     public void saveUserToRedis(User user) {
         template.opsForHash().put(User.getUserRedisKey(user), USER_INFO, user.toString());
     }  
+
+//general
+
+    //expire                                            
+    public void expire(String key, int seconds) {
+        template.expire(key,seconds,TimeUnit.SECONDS); //300s (5min) 86,400s(1day)
+    }
+    
+    //exists
+    public Boolean isKeyExist(String key) { //check for key exist
+        return template.hasKey(key);
+    }
+    
+    //hexists                               //check for hkey exist 
+    public Boolean ishKeyExist(String key, String hkey) {
+        return template.opsForHash().hasKey(key, hkey);
+    }
 }

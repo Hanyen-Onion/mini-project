@@ -21,7 +21,6 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import vttp5b.ssf.miniProject1.models.AddressSearchParams;
 import vttp5b.ssf.miniProject1.models.DayItinerary;
-import vttp5b.ssf.miniProject1.models.FlightInfo;
 import vttp5b.ssf.miniProject1.repositories.PlannerRepository;
 
 @Service
@@ -37,11 +36,11 @@ public class CardService {
     private static final String ADDRESS_URL = "https://places.googleapis.com/v1/places:searchText";
     private static final String FIELD_MASK_PARAM = "places.formattedAddress,places.id,places.displayName.text,places.location,places.googleMapsUri";
 
-    //save data to obj
-    public String saveItineraryToList(String date, DayItinerary itin) {
-        List<DayItinerary> itinList = new LinkedList<>();
-        itinList.add(itin);
-        return itinList.toString();
+    
+
+    //add itin to list for the day
+    public void saveItinerary(String date, DayItinerary itin, String username) {
+        pRepo.saveToDate(itin, date, username);
     }
 
     public DayItinerary findAddress(String displayName) {
