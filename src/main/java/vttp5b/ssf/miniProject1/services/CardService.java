@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import vttp5b.ssf.miniProject1.models.AddressSearchParams;
 import vttp5b.ssf.miniProject1.models.DayItinerary;
+import vttp5b.ssf.miniProject1.models.FlightInfo;
 import vttp5b.ssf.miniProject1.repositories.PlannerRepository;
 
 @Service
@@ -35,26 +37,41 @@ public class CardService {
     private static final String ADDRESS_URL = "https://places.googleapis.com/v1/places:searchText";
     private static final String FIELD_MASK_PARAM = "places.formattedAddress,places.id,places.displayName.text,places.location,places.googleMapsUri";
 
-    // //cache search result
-    // public void cacheAddrList(List<DayItinerary>) {
-    //     pRepo.cacheAddrList(null);
-    // }
-    
-    public List<DayItinerary> getCachedMaps(AddressSearchParams params) {
-           
-        Set<String> redisList = pRepo.retrieveAddrList();
+    //save data to obj
+    public String saveItineraryToList(String date, DayItinerary itin) {
+        List<DayItinerary> itinList = new LinkedList<>();
+        itinList.add(itin);
+        return itinList.toString();
+    }
+
+    public DayItinerary findAddress(String displayName) {
+        List<DayItinerary> searchResults = getCachedAddrList(displayName);
+
+        return searchResults.stream()
+            .filter(obj -> obj.getDisplayName().equals(displayName))
+            .findFirst()
+            .orElse(null);
+    }
+
+    public List<DayItinerary> getCachedAddrList(String displayName) {
+        Set<String> redisList = pRepo.retrieveTempAddrList();
         List<DayItinerary> addrList = new LinkedList<>();
 
-        if ((redisList == null)||(redisList.isEmpty())) {
-            return null;
+        if (redisList.isEmpty() || redisList == null) {
+            AddressSearchParams param = new AddressSearchParams();
+            param.setQuery(displayName);
+            addrList = getTextSearchApi(param);
+            return addrList;
         }
+            addrList = redisList.stream()
+                        .map(DayItinerary::parseToAddrObj)
+                        .collect(Collectors.toList());  
 
-        redisList.stream().forEach(o -> {
-            //parse
-            DayItinerary obj = DayItinerary.parseToAddrObj(o);
-            addrList.add(obj);
-        });
         return addrList;
+    }
+
+    public void cacheAddrList(List<DayItinerary> searchResult) {
+        pRepo.cacheAddrSearchList(searchResult);
     }
 
     public String getMapEmbeddedUrl(DayItinerary day) {
@@ -72,7 +89,7 @@ public class CardService {
 
         //build json to send to google
         JsonObject json = Json.createObjectBuilder()
-            .add("textQuery", param.query())
+            .add("textQuery", param.getQuery())
             .build();
         
         //POST

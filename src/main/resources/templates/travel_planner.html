@@ -147,24 +147,28 @@
     <br>
     <!-- daily itinerary cards, card is the list of dayItinerary -->
     <!-- <div data-th-each="card : ${DaysList}" > -->
-
-        <div class="card" style="width: 18rem;" data-th-if="${date != null}"> <!--if can find card named by date-->
+    
+    <form method="GET" data-th-action="@{/card{date}(date=${date})}">
+        <div class="card" style="width: 18rem;"> <!--if can find card named by date-->
             <div class="card-header">
-                <h5 class="card-title"><input type="date" data-th-text="${date}"></h5>
+                <h5 class="card-title"><input type="date" name="date" data-th-text="${date}"></h5>
             </div>
-            <ul class="list-group list-group-flush" data-th-each="{addr :${itinList}}">
+            <ul class="list-group list-group-flush">
                 <li class="list-group-item">An item</li>
                 <li class="list-group-item">A second item</li>
                 <li class="list-group-item">A third item</li>
             </ul>
             <div class="card-body">
-                <button type="button" data-th-href="@{/card/{date}(date=${date})}" class="card-link">Add/Edit</a>
+                <!-- go to card page -->
+                <button type="submit" class="card-link">Add/Edit</button>
+
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Delete
                 </button>
             </div>
         </div>
+    </form>
                 <!-- Modal -->
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -178,32 +182,11 @@
                             </div>
                             <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                            <button type="submit" class="btn btn-primary" formmethod="POST" data-th-formaction="@{/card/delete/{date}(date=${date})}">Delete</button>
+                            <form><button type="submit" class="btn btn-primary" formmethod="POST" data-th-formaction="@{/card/delete/{date}(date=${date})}">Delete</button></form>
                             </div>
                         </div>
                     </div>
                 </div>
-        
-        <!-- Empty button-->
-        <form method="GET" data-th-action="@{/card{date}(date=${date})}">
-            <div class="card" style="width: 18rem;"> <!--if can find card named by date-->
-                <div class="card-header">
-                    <h5 class="card-title"><input type="date" name="date" data-th-text="${date}"></h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <span>place name </span><span>time</span>
-                    </li>
-                </ul>
-                <div class="card-body">
-                    <button type="submit" class="card-link">Add/Edit</a>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Delete
-                    </button>
-                </div>
-            </div>
-        </form>
 
     <!-- </div> -->
 

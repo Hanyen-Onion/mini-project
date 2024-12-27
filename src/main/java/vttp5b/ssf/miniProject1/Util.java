@@ -31,14 +31,6 @@ public class Util {
         return null;
     }
 
-    public static String DateToString(Date date) {
-        DateFormat print = new SimpleDateFormat("dd MMM yyyy");
-        String dateAsString = print.format(date);
-        //System.out.println(dateAsString);
-        
-        return dateAsString;
-    }
-
     public static String parseToTime(String time, String timezone) {
         
         // string = "2024-12-19T08:30:00+00:00";
@@ -64,6 +56,33 @@ public class Util {
         ZonedDateTime zdtSG = zdtForeign.withZoneSameInstant(sgZ);
         
         return zdtSG.format(dtf);
+    }
+
+    public static String parseItinTime(String date, String time) {
+          //string = "2024-12-19";
+          String str = date +"T" + time;
+          DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+          try {
+              Date localDate = df.parse(str);
+  
+              DateFormat print = new SimpleDateFormat("YYYY-MM-DDTHH:MM");
+              String formattedDate = print.format(localDate);
+      
+              return formattedDate;
+          } catch (Exception ex) {
+              System.out.println("parse date error");
+              //ex.printStackTrace();
+          }
+          return null;
+    }
+
+    public static String DateToString(Date date) {
+        DateFormat print = new SimpleDateFormat("dd MMM yyyy");
+        String dateAsString = print.format(date);
+        //System.out.println(dateAsString);
+        
+        return dateAsString;
     }
 
     public static Date stringToDate(String string) {

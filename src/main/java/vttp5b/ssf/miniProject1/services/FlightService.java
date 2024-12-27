@@ -22,6 +22,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import vttp5b.ssf.miniProject1.models.DayItinerary;
 import vttp5b.ssf.miniProject1.models.FlightInfo;
 import vttp5b.ssf.miniProject1.models.FlightSearchParams;
 import vttp5b.ssf.miniProject1.models.User;
@@ -90,14 +91,14 @@ public class FlightService {
         List<FlightInfo> flightList = new LinkedList<>();
 
         if (redisList.isEmpty()) {
-            getFlightApi();
+            flightList = getFlightApi();
+            return flightList;
         }
 
-        redisList.stream().forEach(o -> {
-            //parse
-            FlightInfo obj = FlightInfo.parseToFlightInfoObj(o);
-            flightList.add(obj);
-        });
+        flightList = redisList.stream()
+                        .map(FlightInfo::parseToFlightInfoObj)
+                        .collect(Collectors.toList());  
+
         return flightList;
     }
 

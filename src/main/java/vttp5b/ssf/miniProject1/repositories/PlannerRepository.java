@@ -25,30 +25,27 @@ public class PlannerRepository {
     private static final String FLIGHT_LIST = "flightList";
     private static final String ADDR_LIST = "addressList";
 
-//mapList
+//tempAddrList
 
-    //smembers key(addressList)
-    public Set<String> retrieveAddrList() {
+
+    //smembers key(addrList)
+    public Set<String> retrieveTempAddrList() {
         SetOperations<String, String> setOps = template.opsForSet();
+        Set<String> redisList = setOps.members(ADDR_LIST);
 
-        if (isKeyExist(ADDR_LIST)) {
-            Set<String> redisList = setOps.members(ADDR_LIST);
-            return redisList;
-        }
-        System.out.println("no map list in redis");
-        return null;
+        return redisList;
     }
 
-    //sadd key(mapList)
-    public void cacheAddrList(List<DayItinerary> list) {
+    //sadd key(addrtList) (member)DayItinObj, ...
+    public void cacheAddrSearchList(List<DayItinerary> list) {
         SetOperations<String, String> setOps = template.opsForSet();
         
-        list.forEach(m -> setOps.add(ADDR_LIST, m.toString()));
+        list.forEach(a -> setOps.add(ADDR_LIST, a.toString()));
     }
 
 //flightList
 
-    //smembers key(FlightList)
+    //smembers key(flightList)
     public Set<String> retrieveFlightList() {
         SetOperations<String, String> setOps = template.opsForSet();
         Set<String> redisList = setOps.members(FLIGHT_LIST);
@@ -56,7 +53,7 @@ public class PlannerRepository {
         return redisList;
     }
 
-    //sadd key(FlightList) (member)flightObj, ...
+    //sadd key(flightList) (member)flightObj, ...
     public void cacheFlights(List<FlightInfo> list) {
         SetOperations<String, String> setOps = template.opsForSet();
         
@@ -91,6 +88,8 @@ public class PlannerRepository {
 
 //user
 
+    //hset key(user:username_id) date(init_list)
+
     //hget key(user:username_id) flightInfo
     public String getFlight(User user, String hkey) {
         HashOperations<String, String, String> hashOps = template.opsForHash();
@@ -123,6 +122,7 @@ public class PlannerRepository {
         return userList;
     }
 
+    //hget key(user:username_id) userInfo
     public User getUser(String userKey) {
         HashOperations<String, String, String> hashOps = template.opsForHash();
         

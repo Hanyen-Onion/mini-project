@@ -18,52 +18,49 @@
                             <tbody>
                                 <tr>
                                     <th>
-                                        <h5>Where do you want to go?</h5>
+                                        <h5>Where to go at <span name="time" type="time" data-th-text="${time}"></span></h5>
                                     </th>
                                     <td>
-                                        <input type="text" name="textQuery">
+                                        <input type="text" name="textQuery" data-th-text="${textQuery}">
                                     </td>
-                                    <td><button type="submit" formmethod="POST" data-th-formaction="@{/search_address/{date}(date=${date})}">Search</button></td>
-                                </tr>
-                                <tr>
-                                    <th>Time:</th>
-                                    <td>
-                                        <input type="time" name="time">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><button type="submit" formmethod="POST" data-th-formaction="@{/card/{date}(date=${date})}">Add/Edit</button></td>
+                                    <td><button type="submit" formmethod="POST" data-th-formaction="@{/search_address/{date}/{time}(date=${date},time=${time})}">Search</button></td>
                                 </tr>
                             </tbody>
                         </table>
                     </form>
                     <!-- list returned after search -->
-                    <div data-th-each="place: ${searchResult}">
-                        <table>
-                            <tr>
-                                <td name="displayName" data-th-text="*{place.displayName}"></td>
-                            </tr>
-                            <tr>
-                                <td name="address" data-th-text="*{place.address}"></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><button type="submit" formmethod="GET" formaction="/search_address/{date}(date=${date})">Search</button></td>
-                            </tr>
-                        </table>
+                    <form data-th-each="place: ${searchResult}">
+                        <div >
+                            <table>
+                                <tr>
+                                    <td name="displayName" data-th-text="${place.displayName}"></td>
+                                    <td><button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Map</button></td>
+                                </tr>
+                                <tr>
+                                    <td name="address" data-th-text="${place.address}"></td>
+                                    <input type="hidden" name="addressDisplay" data-th-value="${place.displayName}">
+                                    <td><button type="submit" formmethod="POST" data-th-formaction="@{/card/{date}(date=${date})}">Add</button></td>
+                                </tr>
+                            </table>
+
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                                <div class="offcanvas-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                    <iframe
+                                    width="450"
+                                    height="250"
+                                    frameborder="0" style="border:0"
+                                    referrerpolicy="no-referrer-when-downgrade"
+                                    data-th-src="@{${place.embedMapUrl}}"
+                                    allowfullscreen>
+                                </iframe>
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
-                </div>
-            </div>
-            <div class="col" data-th-each="place: ${searchResult}">
-                <div class="p-3">
-                    <iframe
-                        width="450"
-                        height="250"
-                        frameborder="0" style="border:0"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        data-th-src="@{*{place.embedMapUrl}}"
-                        allowfullscreen>
-                    </iframe>
                 </div>
             </div>
         </div>

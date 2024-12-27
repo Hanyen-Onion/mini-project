@@ -3,15 +3,16 @@ package vttp5b.ssf.miniProject1.models;
 import java.util.List;
 
 public class DayItinerary {
-    private String time;
+
     private String address;
     private String displayName;
     private String lat;
     private String lon;
     private String googleMapUrl;
     private String placeId;
-
     private String embedMapUrl;
+
+    private String time;
     private String date;
 
     public String getEmbedMapUrl() {    return embedMapUrl;}
