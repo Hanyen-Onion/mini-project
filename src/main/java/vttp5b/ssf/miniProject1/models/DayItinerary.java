@@ -1,14 +1,12 @@
 package vttp5b.ssf.miniProject1.models;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class DayItinerary {
 
     private String address;
     private String displayName;
-    private String lat;
-    private String lon;
-    private String googleMapUrl;
     private String placeId;
     private String embedMapUrl;
 
@@ -29,27 +27,33 @@ public class DayItinerary {
         
     public String getDisplayName() {    return displayName;}
     public void setDisplayName(String displayName) {    this.displayName = displayName;}
-    
-    public String getLat() {    return lat;}
-    public void setLat(String lat) {    this.lat = lat;}
-
-    public String getLon() {    return lon;}
-    public void setLon(String lon) {    this.lon = lon;}
-
-    public String getGoogleMapUrl() {    return googleMapUrl;}
-    public void setGoogleMapUrl(String googleMapUrl) {    this.googleMapUrl = googleMapUrl;}
 
     public String getPlaceId() {    return placeId;}
     public void setPlaceId(String placeId) {    this.placeId = placeId;}
 
-    //should get from the controller
-    public static String arrayForEachDay() {
+    public static String itinListKey(String username, String date) {
 
-        //get all day Objs to list first
-        List<DayItinerary> allItineraries;
+        if ((username == null)||date == null) {
+            return null;
+        }
+        String key = "d:" + username + "_" + date;
+        return key;
+    }
 
-        //return allItineraries.toString();
-        return null;
+    public static List<String> parseKeyToList(String string, User user) {
+        
+        if (string == null) {
+            System.out.println("cannot find dayList");
+            return null;
+        }
+        String[] field = string.replaceAll("d:" + user.getUsername(), "").split(",");
+        
+        List<String> keys = new LinkedList<>();
+
+        for (int i = 0; i < field.length; i++) {
+            keys.add(field[i]);
+        }
+        return keys;
     }
 
     public static DayItinerary parseToAddrObj(String string) {
@@ -80,15 +84,6 @@ public class DayItinerary {
                 case "embedMapUrl":
                     itin.setEmbedMapUrl(kv[1]);
                     break;
-                case "googleMapUrl":
-                    itin.setGoogleMapUrl(kv[1]);
-                    break;
-                case "lat":
-                    itin.setLat(kv[1]);
-                    break;
-                case "lon":
-                    itin.setLon(kv[1]);
-                    break;
                 case "placeId":
                     itin.setPlaceId(kv[1]);
                     break;
@@ -105,7 +100,6 @@ public class DayItinerary {
 
     @Override
     public String toString() {
-        return "time=%sT".formatted(date) + time + "&address=" + address + "&displayName=" + displayName + "&lat=" + lat
-                + "&lon=" + lon + "&googleMapUrl=" + googleMapUrl + "&placeId=" + placeId + "&embedMapUrl=" + embedMapUrl ;
+        return "time=%sT".formatted(date) + time + "&address=" + address + "&displayName=" + displayName + "&placeId=" + placeId + "&embedMapUrl=" + embedMapUrl ;
     }
 }

@@ -32,6 +32,7 @@ public class CreateController {
         ModelAndView mav = new ModelAndView();
         User user =  sSvc.getSessionPreLogin(sess);
         System.out.println("get sess " + user);
+        
         //validation
         if (bind.hasErrors()) {
             mav.setViewName("create");
@@ -44,15 +45,15 @@ public class CreateController {
         }
 
         //if session is new and obj is still empty
-        if ((user.getUsername() == null)&&(user.getPassword()==null)
+        if ((user.getUsername() == null) || (user.getPassword()==null)
                 ||(user.getUserId() == null)) {
                     
             user.setUsername(userForm.getUsername());
             user.setPassword(userForm.getPassword());
-            user.setUserId(sess.getId());
+            user.setUserId(User.genId());
             sess.setAttribute(USER_INFO, user);
         }
-        loginSvc.saveUser(userForm);
+        loginSvc.saveUser(user);
 
         System.out.println("post create");
         System.out.println("user" + user);

@@ -10,7 +10,7 @@
     <form method="GET" data-th-action="@{/search_address/{date}{time}(date=${date},time=${time})}">
         <h1 class="justify-content-between">
             <span name="date" data-th-text="${date}"></span>
-            <a data-th-href="@{/travel_planner}">
+            <a href="/travel_planner"><button type="button">Back</button></a>
         </h1>
 
         <div class="list-group" data-th-object="${itinerary}">

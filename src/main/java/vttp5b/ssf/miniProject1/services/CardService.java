@@ -1,6 +1,11 @@
 package vttp5b.ssf.miniProject1.services;
 
+import static vttp5b.ssf.miniProject1.Util.parseBackTime;
+
 import java.io.StringReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +26,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import vttp5b.ssf.miniProject1.models.AddressSearchParams;
 import vttp5b.ssf.miniProject1.models.DayItinerary;
+import vttp5b.ssf.miniProject1.models.User;
 import vttp5b.ssf.miniProject1.repositories.PlannerRepository;
 
 @Service
@@ -36,20 +42,70 @@ public class CardService {
     private static final String ADDRESS_URL = "https://places.googleapis.com/v1/places:searchText";
     private static final String FIELD_MASK_PARAM = "places.formattedAddress,places.id,places.displayName.text,places.location,places.googleMapsUri";
 
-    
+    //get itinList for the day
+    public List<DayItinerary> getItinListforTheDay(String date, User user) {
+        Set<String> itinSet = pRepo.retrieveDate(date, user.getUsername());
+        List<DayItinerary> itinList = new LinkedList<>();
 
-    //add itin to list for the day
-    public void saveItinerary(String date, DayItinerary itin, String username) {
-        pRepo.saveToDate(itin, date, username);
+        if (itinSet == null || itinSet.isEmpty()||user == null) {
+            return null;
+        }
+        
+        itinSet.forEach(s -> {
+            //parse string to obj
+            DayItinerary itin = DayItinerary.parseToAddrObj(s);
+            itinList.add(itin);
+        });
+       
+         // Sort the list by time
+        itinList.sort(Comparator.comparing(itin -> {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+            return LocalDateTime.parse(itin.getTime(), formatter); 
+        }));
+
+        itinList.forEach(obj -> {
+            obj.setTime(parseBackTime(obj.getTime()));
+        });
+
+        return itinList;
     }
 
-    public DayItinerary findAddress(String displayName) {
-        List<DayItinerary> searchResults = getCachedAddrList(displayName);
+    // public List<List<DayItinerary>> listOfList() {
 
-        return searchResults.stream()
-            .filter(obj -> obj.getDisplayName().equals(displayName))
-            .findFirst()
-            .orElse(null);
+    // }
+
+    public List<String> getDayList(String date, User user) {
+        String str = pRepo.getDayListFromUser(user, DayItinerary.itinListKey(user.getUsername(), date));
+
+        //iterate and add
+        List<String> keys = DayItinerary.parseKeyToList(str, user);
+        return keys;
+    }
+
+
+    //add itin to list for the day
+    public void saveItinerary(DayItinerary itin, User user) {
+        pRepo.saveToDate(itin, itin.getDate(), user.getUsername());
+        //get listOfTheDays and save to userAcct
+        pRepo.getListsOfDays(user.getUsername());
+        pRepo.saveItineraryToRedis(user);
+    }
+
+    public DayItinerary findAddress(String displayName, String address) {
+        List<DayItinerary> searchResults = getCachedAddrList(displayName);
+        DayItinerary itin = new DayItinerary();
+        searchResults.forEach(obj -> {
+            if (obj.getDisplayName().equals(displayName)||(obj.getAddress().equals(address))) {
+                itin.setAddress(obj.getAddress());
+                itin.setDate(obj.getDate());
+                itin.setDisplayName(obj.getDisplayName());
+                itin.setEmbedMapUrl(obj.getEmbedMapUrl());
+                itin.setPlaceId(obj.getPlaceId());
+            }
+        });
+
+        return itin;
     }
 
     public List<DayItinerary> getCachedAddrList(String displayName) {
@@ -85,7 +141,7 @@ public class CardService {
     }
     
     public List<DayItinerary> getTextSearchApi(AddressSearchParams param) {
-
+        System.out.println(param.getQuery());
         //build json to send to google
         JsonObject json = Json.createObjectBuilder()
             .add("textQuery", param.getQuery())
@@ -128,18 +184,12 @@ public class CardService {
 
             String address = resultObj.getString("formattedAddress", null);
             String displayName = resultObj.getString("displayName", null);
-            String lat = resultObj.getJsonObject("location").getString("latitude", null);
-            String lon = resultObj.getJsonObject("location").getString("longitude", null);
-            String googleMapUrl = resultObj.getString("googleMapsUri", null);
             String placeId = resultObj.getString("id", null);
 
             //add to object
             DayItinerary dayObj = new DayItinerary();
             dayObj.setAddress(address);
             dayObj.setDisplayName(displayName);
-            dayObj.setGoogleMapUrl(googleMapUrl);
-            dayObj.setLat(lat);
-            dayObj.setLon(lon);
             dayObj.setPlaceId(placeId);
 
             // //get mapApi

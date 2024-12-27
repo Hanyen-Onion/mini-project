@@ -1,5 +1,7 @@
 package vttp5b.ssf.miniProject1.models;
 
+import java.util.UUID;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
@@ -60,6 +62,11 @@ public class User {
             }
         }
         return user;
+    }
+
+    public static String genId() {
+        String id = UUID.randomUUID().toString().toUpperCase().replaceAll("-", "");
+        return id;
     }
 
     public static String getUserRedisKey(User user) {

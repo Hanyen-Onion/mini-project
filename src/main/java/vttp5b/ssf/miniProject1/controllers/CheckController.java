@@ -19,7 +19,7 @@ import static vttp5b.ssf.miniProject1.Util.*;
 
 @Controller
 @RequestMapping(path={"/", "/login"})
-public class LoginController {
+public class CheckController {
     
     @Autowired
     private LoginService loginSvc;
@@ -45,13 +45,14 @@ public class LoginController {
             return mav;
         }
         // if session is new and obj is still empty
-        if ((user.getUsername() == null)&&(user.getPassword()==null)
-                ||(user.getUserId() == null) ) {
+        if ((user.getUsername() == null)|| (user.getPassword()==null)
+                ||(user.getUserId()== null) ) {
             //find user info from redis and populate sess
             User rUser = sSvc.getUserWithLogin(loginForm);
             user.setUsername(rUser.getUsername());
             user.setPassword(rUser.getPassword());
             user.setUserId(rUser.getUserId());
+            System.out.println("after redis" + user);
             sess.setAttribute(USER_INFO, user);
         }
        

@@ -48,6 +48,7 @@ public class SessionService {
         System.out.println("didn't find anything in redis");
         return null;
     }
+    
     public User getSessionPostLogin(HttpSession sess) {
         User user = (User)sess.getAttribute(USER_INFO);
         return user;

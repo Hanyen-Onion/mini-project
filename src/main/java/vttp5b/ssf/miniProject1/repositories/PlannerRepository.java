@@ -71,7 +71,11 @@ public class PlannerRepository {
     //smembers key(d:name_date))
     public Set<String> retrieveDate(String date, String username) {
         SetOperations<String, String> setOps = template.opsForSet();
-        Set<String> redisSet = setOps.members("d:"+ username +"_"+ date);
+        
+        if (DayItinerary.itinListKey(username, date) == null) {
+            return null;
+        }
+        Set<String> redisSet = setOps.members(DayItinerary.itinListKey(username, date));
 
         return redisSet;
     }
@@ -79,8 +83,10 @@ public class PlannerRepository {
     //sadd key(d:name_date) (member)dayObj
     public void saveToDate(DayItinerary itin, String date, String username) {
         SetOperations<String, String> setOps = template.opsForSet();
+        if (itin != null) {
+            setOps.add(DayItinerary.itinListKey(username, date), itin.toString());
+        }
         
-        setOps.add("d:"+ username +"_"+ date, itin.toString());
     }
 
 //user

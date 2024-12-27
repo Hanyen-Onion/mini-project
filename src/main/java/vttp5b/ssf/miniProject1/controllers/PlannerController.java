@@ -2,6 +2,8 @@ package vttp5b.ssf.miniProject1.controllers;
 
 import static vttp5b.ssf.miniProject1.Util.*;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
+import vttp5b.ssf.miniProject1.models.DayItinerary;
 import vttp5b.ssf.miniProject1.models.FlightInfo;
 import vttp5b.ssf.miniProject1.models.User;
+import vttp5b.ssf.miniProject1.services.CardService;
 import vttp5b.ssf.miniProject1.services.FlightService;
 import vttp5b.ssf.miniProject1.services.SessionService;
 
@@ -26,19 +30,11 @@ public class PlannerController {
     @Autowired
     private FlightService fSvc;
 
+    @Autowired
+    private CardService cSvc;
+
     private static final String FROM_TO = "fromTo";
     private static final String BACK_TO = "backTo";
-
-    @GetMapping("travel_planner{}")
-    public ModelAndView getDateForCard() {
-        ModelAndView mav = new ModelAndView();
-        System.out.println("get travel planner");
-    
-
-
-        mav.setViewName("travel_planner");
-        return mav;
-    }
 
     // depart -> tavel_planner/departure/flightcode
     @PostMapping("travel_planner/depart/{flightCode}")
@@ -91,7 +87,7 @@ public class PlannerController {
     }
 
     @GetMapping(path={"travel_planner"})
-    public ModelAndView getTravelPlanner(HttpSession sess ) {
+    public ModelAndView getTravelPlanner(HttpSession sess) {
         ModelAndView mav = new ModelAndView();
         System.out.println("get travel planner");
         
@@ -105,6 +101,8 @@ public class PlannerController {
         //fetch flight detail from acct
         FlightInfo ftFlight = fSvc.retrieveFlightFromAcct(user, FROM_TO);
         FlightInfo btFlight = fSvc.retrieveFlightFromAcct(user, BACK_TO);
+        //daylist
+       
         
         mav.addObject(USER_INFO, user);
         mav.addObject(FROM_TO, ftFlight);

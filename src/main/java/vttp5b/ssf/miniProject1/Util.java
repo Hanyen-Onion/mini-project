@@ -58,23 +58,29 @@ public class Util {
         return zdtSG.format(dtf);
     }
 
-    public static String parseItinTime(String date, String time) {
-          //string = "2024-12-19";
-          String str = date +"T" + time;
-          DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    public static String parseBackTime(String time) {
+       
+        DateFormat df = new SimpleDateFormat("YYYY-MM-DDTHH:MM");
+        
+        try {
+            Date localDate = df.parse(time);
 
-          try {
-              Date localDate = df.parse(str);
+            DateFormat print = new SimpleDateFormat("HH:MM");
+            String formattedDate = print.format(localDate);
+    
+            return formattedDate;
+        } catch (Exception ex) {
+            System.out.println("parse date error");
+            //ex.printStackTrace();
+        }
+        return null;
   
-              DateFormat print = new SimpleDateFormat("YYYY-MM-DDTHH:MM");
-              String formattedDate = print.format(localDate);
-      
-              return formattedDate;
-          } catch (Exception ex) {
-              System.out.println("parse date error");
-              //ex.printStackTrace();
-          }
-          return null;
+    }
+
+    public static String parseItinTime(String date, String time) {
+
+          String str = date + "T" + time;
+          return str;
     }
 
     public static String DateToString(Date date) {
