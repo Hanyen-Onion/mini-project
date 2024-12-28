@@ -1,6 +1,6 @@
 #Imagine Dockerfile is ur notebook
 #Install java
-FROM eclipse-temurin:22-jdk
+FROM eclipse-temurin:22-jdk AS builder
 
 LABEL maintainer="Onion"
 LABEL version="v1"
