@@ -48,12 +48,8 @@ public class LoginController {
             user.setUsername(rUser.getUsername());
             user.setPassword(rUser.getPassword());
             user.setUserId(rUser.getUserId());
-            System.out.println("after redis" + user);
             sess.setAttribute(USER_INFO, user);
         }
-       
-        System.out.println("post login");
-        System.out.println(user);
 
         mav.addObject(USER_INFO, user);
         mav.setViewName("redirect:/travel_planner");
@@ -66,9 +62,6 @@ public class LoginController {
 
         ModelAndView mav = new ModelAndView();
         User user = sSvc.getSessionPreLogin(sess);
-
-        System.out.println("get login");
-        System.out.println(user);
 
         mav.addObject(USER_INFO, user);
         mav.setViewName("login");

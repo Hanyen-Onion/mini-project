@@ -34,22 +34,18 @@ public class PlannerController {
     // depart -> tavel_planner/departure/flightcode
     @PostMapping("travel_planner/depart/{flightCode}")
     public ModelAndView postFtToPlanner(@PathVariable String flightCode, HttpSession sess){
+        
         ModelAndView mav = new ModelAndView();
-        System.out.println("post flightcode for depature");
-
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
             mav.setViewName("redirect:/login");
             return mav;
         }
-        System.out.println(user);
 
         //find flight through flightCode
         FlightInfo ftFlight = fSvc.getFlightObj(flightCode);
         //save flight to userAcct
         fSvc.saveFlightToAcct(ftFlight, user, FROM_TO);
-
-        System.out.println(ftFlight);
         
         mav.addObject(USER_INFO, user);
         mav.setViewName("redirect:/travel_planner");
@@ -59,15 +55,13 @@ public class PlannerController {
     // return -> tavel_planner/return/flightcode=
     @PostMapping("travel_planner/return/{flightCode}")
     public ModelAndView postToBtPlanner(@PathVariable String flightCode, HttpSession sess){
+        
         ModelAndView mav = new ModelAndView();
-        System.out.println("post flightcode for arrivial");
-
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
             mav.setViewName("redirect:/login");
             return mav;
         }
-        System.out.println(user);
 
         //find flight through flightCode
         FlightInfo btFlight = fSvc.getFlightObj(flightCode);
@@ -85,15 +79,13 @@ public class PlannerController {
 
     @GetMapping(path={"travel_planner"})
     public ModelAndView getTravelPlanner(HttpSession sess) {
-        ModelAndView mav = new ModelAndView();
-        System.out.println("get travel planner");
         
+        ModelAndView mav = new ModelAndView();  
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
             mav.setViewName("redirect:/login");
             return mav;
         }
-        System.out.println(user);
         
         //fetch flight detail from acct
         FlightInfo ftFlight = fSvc.retrieveFlightFromAcct(user, FROM_TO);
@@ -101,8 +93,6 @@ public class PlannerController {
         
         //daylist
         Map<String, List<DayItinerary>> mapList = cSvc.mapList(user);
-        System.out.println("map ");
-        mapList.forEach((k,v) -> System.out.println(k + v));
     
         mav.addObject(USER_INFO, user);
         mav.addObject(FROM_TO, ftFlight);

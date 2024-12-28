@@ -28,10 +28,12 @@ public class CreateController {
     private SessionService sSvc;
 
     @PostMapping("create")
-    public ModelAndView postCreate(@Valid @ModelAttribute("userInfo") User userForm, BindingResult bind, HttpSession sess) {
+    public ModelAndView postCreate(
+        @Valid @ModelAttribute("userInfo") User userForm, 
+        BindingResult bind, HttpSession sess) {
+        
         ModelAndView mav = new ModelAndView();
         User user =  sSvc.getSessionPreLogin(sess);
-        System.out.println("get sess " + user);
         
         //validation
         if (bind.hasErrors()) {
@@ -55,9 +57,6 @@ public class CreateController {
         }
         loginSvc.saveUser(user);
 
-        System.out.println("post create");
-        System.out.println("user" + user);
-        
         mav.addObject(USER_INFO, user);
         mav.addObject("username", user.getUsername());
         mav.addObject("userId", user.getUserId());
@@ -67,8 +66,8 @@ public class CreateController {
     
     @GetMapping("create")
     public ModelAndView getCreate() {
+        
         ModelAndView mav = new ModelAndView();
-        System.out.println("get create");
 
         mav.addObject(USER_INFO, new User());
         mav.setViewName("create");

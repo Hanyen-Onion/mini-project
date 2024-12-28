@@ -27,16 +27,16 @@ public class FlightController {
 
     // flight -> flight , returns filter
     @PostMapping("depart")
-    public ModelAndView postSearch(@RequestBody MultiValueMap<String, String> searchParams, @ModelAttribute FlightInfo flightInfo, HttpSession sess) {
+    public ModelAndView postSearch(
+        @RequestBody MultiValueMap<String, String> searchParams, 
+        @ModelAttribute FlightInfo flightInfo, HttpSession sess) {
+        
         ModelAndView mav = new ModelAndView();
-        System.out.println("post search");
-
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
             mav.setViewName("redirect:/login");
             return mav;
         }
-        System.out.println(user);
 
         SearchParams params = new SearchParams();
         params.setArrAirport(searchParams.getFirst("searchArrAirport"));
@@ -57,14 +57,11 @@ public class FlightController {
     @GetMapping("/return")
     public ModelAndView getReturn(HttpSession sess) {
         ModelAndView mav = new ModelAndView();
-        System.out.println("get flight");
-
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
             mav.setViewName("redirect:/login");
             return mav;
         }
-        System.out.println(user);
 
         List<FlightInfo> allFlightInfoList = fSvc.getFlightList();
         
@@ -78,16 +75,13 @@ public class FlightController {
     //get unflitered list
     @GetMapping("/depart")
     public ModelAndView getDepart(HttpSession sess) {
+       
         ModelAndView mav = new ModelAndView();
-        System.out.println("get flight");
-
         User user = sSvc.getSessionPostLogin(sess);
         if (user == null) {
             mav.setViewName("redirect:/login");
             return mav;
         }
-        System.out.println(user);
-
         List<FlightInfo> allFlightInfoList = fSvc.getFlightList();
         
         mav.addObject("flightInfoList", allFlightInfoList);

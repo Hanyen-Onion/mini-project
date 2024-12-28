@@ -41,7 +41,6 @@ public class CardController {
             mav.setViewName("redirect:/travel_planner");
             return mav;
         }
-        System.out.println("post card");
 
         String displayName = form.getFirst("addrDisplay");
         String address = form.getFirst("addr");
@@ -83,9 +82,6 @@ public class CardController {
             mav.setViewName("redirect:/login");
             return mav;
         }
-
-        System.out.println("get card");
-        System.out.println("DATE " + date);
 
         //get itinList for the day from redis
         List<DayItinerary> dateList = cardSvc.getItinListforTheDay(date, user);
