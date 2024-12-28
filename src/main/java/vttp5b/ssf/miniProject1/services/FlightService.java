@@ -22,9 +22,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import vttp5b.ssf.miniProject1.models.DayItinerary;
-import vttp5b.ssf.miniProject1.models.FlightInfo;
-import vttp5b.ssf.miniProject1.models.FlightSearchParams;
+import vttp5b.ssf.miniProject1.models.*;
 import vttp5b.ssf.miniProject1.models.User;
 import vttp5b.ssf.miniProject1.repositories.PlannerRepository;
 
@@ -73,13 +71,13 @@ public class FlightService {
         return flight;
     }
 
-    public List<FlightInfo> filter(List<FlightInfo> flightInfoList, FlightSearchParams params) {
+    public List<FlightInfo> filter(List<FlightInfo> flightInfoList, SearchParams params) {
         
         List<FlightInfo> filteredList = flightInfoList.stream()
-            .filter(flight -> params.arrAirport().isBlank() || flight.getArrivalAirport().equals(params.arrAirport()))
-            .filter(flight -> params.depAirport().isBlank() || flight.getDepartureAirport().equals(params.depAirport()))
-            .filter(flight -> params.flightCode().isBlank() || flight.getFlightCode().equals(params.flightCode()))
-            .filter(flight -> params.date().isBlank() || flight.getFlightDate().equals(params.date()))
+            .filter(flight -> params.getArrAirport().isBlank() || flight.getArrivalAirport().equals(params.getArrAirport()))
+            .filter(flight -> params.getDepAirport().isBlank() || flight.getDepartureAirport().equals(params.getDepAirport()))
+            .filter(flight -> params.getFlightCode().isBlank() || flight.getFlightCode().equals(params.getFlightCode()))
+            .filter(flight -> params.getDate().isBlank() || flight.getFlightDate().equals(params.getDate()))
             .collect(Collectors.toList());
 
         return filteredList;

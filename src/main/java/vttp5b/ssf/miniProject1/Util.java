@@ -60,34 +60,35 @@ public class Util {
 
     public static String parseBackTime(String time) {
        
-        DateFormat df = new SimpleDateFormat("YYYY-MM-DDTHH:MM");
-        
+        DateFormat df = new SimpleDateFormat("YYYY-MM-DD'T'HH:mm");
+        if (time == null)
+            return null;
         try {
             Date localDate = df.parse(time);
 
-            DateFormat print = new SimpleDateFormat("HH:MM");
+            DateFormat print = new SimpleDateFormat("HH:mm");
             String formattedDate = print.format(localDate);
     
             return formattedDate;
         } catch (Exception ex) {
-            System.out.println("parse date error");
+            System.out.println("parse back time error");
             //ex.printStackTrace();
         }
         return null;
-  
     }
 
-    public static String parseItinTime(String date, String time) {
-
-          String str = date + "T" + time;
-          return str;
+    public static String parseTime(String date, String time) {
+        if (time !=null && date != null) {
+            String str = date + "T" + time;
+            return str;
+        }
+        return null;
     }
 
     public static String DateToString(Date date) {
         DateFormat print = new SimpleDateFormat("dd MMM yyyy");
         String dateAsString = print.format(date);
-        //System.out.println(dateAsString);
-        
+
         return dateAsString;
     }
 

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -60,55 +61,72 @@ public class PlannerRepository {
         expire(FLIGHT_LIST, 86400);
     }
 
-//dayList
-
-    //keys *d:username*
-    public Set<String> getListsOfDays(String username) {
-        Set<String> itins = template.keys("*d:"+username+"*");
-        return itins;
-    }
+//dateSet
 
     //smembers key(d:name_date))
-    public Set<String> retrieveDate(String date, String username) {
+    public Set<String> retrieveDateSet(String date, String username) {
         SetOperations<String, String> setOps = template.opsForSet();
         
-        if (DayItinerary.itinListKey(username, date) == null) {
+        if (DayItinerary.itinListKey(date) == null||username == null) {
             return null;
         }
-        Set<String> redisSet = setOps.members(DayItinerary.itinListKey(username, date));
+        Set<String> redisSet = setOps.members(DayItinerary.itinListKey(date));
 
         return redisSet;
     }
 
-    //sadd key(d:name_date) (member)dayObj
-    public void saveToDate(DayItinerary itin, String date, String username) {
+    //sadd key(d:date) itinObj, itinObj
+    public void saveToDateSet(DayItinerary itin, String username) {
         SetOperations<String, String> setOps = template.opsForSet();
         if (itin != null) {
-            setOps.add(DayItinerary.itinListKey(username, date), itin.toString());
+            setOps.add(DayItinerary.itinListKey(itin.getDate()), itin.toString());
         }
-        
     }
 
 //user
 
-    //hget key(user:username_id) itinerary
-    public String getDayListFromUser(User user, String hkey) {
+    //hkeys  key(user:username_id)
+    public Set<String> getAllhKeys(User user) {
         HashOperations<String, String, String> hashOps = template.opsForHash();
 
-        String dString = hashOps.get(User.getUserRedisKey(user), hkey);
+        Set<String> hkeys = hashOps.keys(User.getUserRedisKey(user));
 
-        if (ishKeyExist(User.getUserRedisKey(user), hkey)) {
-            return dString;
+        if (user == null || !isKeyExist(User.getUserRedisKey(user))) {
+            return null;
         }
-        return null;
+        return hkeys;
     }
 
-    //hset key(d:username) itinerary(listOfDays)
-    public void saveItineraryToRedis(User user) {
-        Set<String> itins = getListsOfDays(user.getUsername());
-        String i = itins.toString();
+    public List<String> getDayListFromUser(User user) {
+        Set<String> hkeys = getAllhKeys(user);
 
-        template.opsForHash().put(User.getUserRedisKey(user), itins, i);
+        if (hkeys == null)
+            return null;
+
+        List<String> dayListHkeys = hkeys.stream()
+                                        .filter(k -> k.contains("d:"))
+                                        .map(k -> k.replace("d:", ""))
+                                        .collect(Collectors.toList());
+        return dayListHkeys;
+    }
+
+    //hset key(user:username_id) d:date dateSet
+    public void saveDateToAcct(DayItinerary itin, User user) {
+        HashOperations<String, String, String> hashOps = template.opsForHash();
+        Set<String> itinSet = retrieveDateSet(itin.getDate(), user.getUsername());
+        StringBuilder sb = new StringBuilder();
+        
+        itinSet.forEach(obj -> {
+            //get every Obj to add up to one long string separated by commas
+            sb.append(obj).append(",");
+        });
+
+        if (sb.length()> 0) 
+                sb.setLength(sb.length() -1);
+
+        String itinList = sb.toString();
+
+        hashOps.put(User.getUserRedisKey(user), DayItinerary.itinListKey(itin.getDate()), itinList);
     }
 
     //hget key(user:username_id) flightInfo

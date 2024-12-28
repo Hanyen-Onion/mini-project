@@ -31,22 +31,22 @@ public class DayItinerary {
     public String getPlaceId() {    return placeId;}
     public void setPlaceId(String placeId) {    this.placeId = placeId;}
 
-    public static String itinListKey(String username, String date) {
+    public static String itinListKey(String date) {
 
-        if ((username == null)||date == null) {
+        if (date == null) {
             return null;
         }
-        String key = "d:" + username + "_" + date;
+        String key = "d:" + date;
         return key;
     }
 
-    public static List<String> parseKeyToList(String string, User user) {
+    public static List<String> parseKeysToList(String string, User user) {
         
         if (string == null) {
             System.out.println("cannot find dayList");
             return null;
         }
-        String[] field = string.replaceAll("d:" + user.getUsername(), "").split(",");
+        String[] field = string.replaceAll("d:", "").split(",");
         
         List<String> keys = new LinkedList<>();
 
@@ -66,6 +66,7 @@ public class DayItinerary {
 
         String[] fields = string.split("&");
         String[] kv;
+        String str;
         
         for(int i = 0; i < fields.length; i++) {
             kv = fields[i].split("=");
@@ -73,7 +74,8 @@ public class DayItinerary {
             if (kv.length == 2) 
             switch (kv[0]) {
                 case "time":
-                    itin.setTime(kv[1]);
+                    str = kv[1].replace("nullT", "");
+                    itin.setTime(str);
                     break;
                 case "address":
                     itin.setAddress(kv[1]);
@@ -91,7 +93,6 @@ public class DayItinerary {
                     itin.setDate(kv[1]);
                     break;
                 default:
-                    System.out.println("error with user parsing string");
                     break;
             }
         }
@@ -100,6 +101,6 @@ public class DayItinerary {
 
     @Override
     public String toString() {
-        return "time=%sT".formatted(date) + time + "&address=" + address + "&displayName=" + displayName + "&placeId=" + placeId + "&embedMapUrl=" + embedMapUrl ;
+        return "time=" + time + "&address=" + address + "&displayName=" + displayName + "&placeId=" + placeId + "&embedMapUrl=" + embedMapUrl ;
     }
 }

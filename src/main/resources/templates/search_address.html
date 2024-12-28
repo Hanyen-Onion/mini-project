@@ -40,6 +40,8 @@
                                     <td name="address" data-th-text="${place.address}"></td>
                                     <input type="hidden" name="addrDisplay" data-th-value="${place.displayName}">
                                     <input type="hidden" name="addr" data-th-value="${place.address}">
+                                    <input type="hidden" name="time" data-th-value="${place.time}">
+                                    <input type="hidden" name="date" data-th-value="${date}">
                                     <td><button type="submit" formmethod="POST" data-th-formaction="@{/card/{date}(date=${date})}">Add</button></td>
                                 </tr>
                             </table>

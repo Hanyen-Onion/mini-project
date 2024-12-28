@@ -1,23 +1,19 @@
 package vttp5b.ssf.miniProject1.controllers;
 
+import static vttp5b.ssf.miniProject1.Util.parseBackTime;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
-import vttp5b.ssf.miniProject1.models.DayItinerary;
-import vttp5b.ssf.miniProject1.models.User;
-import vttp5b.ssf.miniProject1.services.CardService;
-import vttp5b.ssf.miniProject1.services.SessionService;
+import vttp5b.ssf.miniProject1.models.*;
+import vttp5b.ssf.miniProject1.services.*;
 
 @Controller
 @RequestMapping("/card")
@@ -32,7 +28,7 @@ public class CardController {
     //search address -> card
     @PostMapping("/{date}")
     public ModelAndView postAddress(
-        @RequestBody(required = false ) String displayName, @RequestBody(required = false ) String address, 
+        @RequestBody(required = false ) MultiValueMap<String, String> form, 
         @PathVariable(required = false) String date, HttpSession sess) {
         
         ModelAndView mav = new ModelAndView();
@@ -40,55 +36,39 @@ public class CardController {
         if (user == null) {
             mav.setViewName("redirect:/login");
             return mav;
-        }
-
-        System.out.println("post card");
-        DayItinerary itin = new DayItinerary();
-
-        if (displayName != null) {
-            //get cache search and get obj from it using display name
-            itin = cardSvc.findAddress(displayName, address);
-            itin.setDate(date);
-
-        } else {
+        } else if (date == null) {
             mav.setStatus(HttpStatusCode.valueOf(500));
-            mav.setViewName("login");
+            mav.setViewName("redirect:/travel_planner");
             return mav;
         }
-        
+        System.out.println("post card");
+
+        String displayName = form.getFirst("addrDisplay");
+        String address = form.getFirst("addr");
+        String time = form.getFirst("time");
+
+        DayItinerary itin = new DayItinerary();
+        //get cache search and get obj from it using display name
+        DayItinerary cachedResult = cardSvc.findAddress(displayName, address);
+        itin.setDate(date);
+        itin.setAddress(address);
+        if (displayName != null) {
+            itin.setDisplayName(cachedResult.getDisplayName());
+        }
+        itin.setDisplayName(address);
+        itin.setEmbedMapUrl(cachedResult.getEmbedMapUrl());
+        itin.setPlaceId(cachedResult.getPlaceId());
+        itin.setTime(time);
+
         cardSvc.saveItinerary(itin, user);
-        List<DayItinerary> itinList = cardSvc.getItinListforTheDay(date, user);
+        List<DayItinerary> dateList = cardSvc.getItinListforTheDay(date, user);
 
-        mav.addObject("addressDisplay", displayName);
-        mav.addObject("date", date);
-        mav.addObject("itinList", itinList);
+        mav.addObject("dateList", dateList);
         mav.addObject("user", user);
+        mav.addObject("date", date);
+        mav.addObject("time", parseBackTime(time));
         mav.setViewName("card");
 
-        return mav;
-    }
-
-    // planner -> card 
-    @GetMapping("/{date}/") //card?date=
-    public ModelAndView getCardWithDate(@PathVariable(required = false) String date, HttpSession sess) {
-        
-        ModelAndView mav = new ModelAndView();
-        User user = sSvc.getSessionPostLogin(sess);
-        if (user == null) {
-            mav.setViewName("login");
-            return mav;
-        }
-
-        System.out.println("get card");
-        System.out.println("DATE " + date);
-
-        //get itinList for the day from redis
-        List<DayItinerary> itinList = cardSvc.getItinListforTheDay(date, user);
-
-        mav.addObject("date", date);
-        mav.addObject("itinList", itinList);
-        mav.addObject("user", user);
-        mav.setViewName("card");
         return mav;
     }
 
@@ -98,8 +78,9 @@ public class CardController {
         
         ModelAndView mav = new ModelAndView();
         User user = sSvc.getSessionPostLogin(sess);
-        if (user == null) {
-            mav.setViewName("login");
+        if (user == null|| mav.getStatus() == HttpStatus.INTERNAL_SERVER_ERROR) {
+            user = sSvc.getSessionPreLogin(sess);
+            mav.setViewName("redirect:/login");
             return mav;
         }
 
@@ -107,10 +88,10 @@ public class CardController {
         System.out.println("DATE " + date);
 
         //get itinList for the day from redis
-        List<DayItinerary> itinList = cardSvc.getItinListforTheDay(date, user);
+        List<DayItinerary> dateList = cardSvc.getItinListforTheDay(date, user);
 
         mav.addObject("date", date);
-        mav.addObject("itinList", itinList);
+        mav.addObject("dateList", dateList);
         mav.addObject("user", user);
         mav.setViewName("card");
         return mav;

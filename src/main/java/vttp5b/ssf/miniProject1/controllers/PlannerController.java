@@ -2,23 +2,18 @@ package vttp5b.ssf.miniProject1.controllers;
 
 import static vttp5b.ssf.miniProject1.Util.*;
 
+
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
-import vttp5b.ssf.miniProject1.models.DayItinerary;
-import vttp5b.ssf.miniProject1.models.FlightInfo;
-import vttp5b.ssf.miniProject1.models.User;
-import vttp5b.ssf.miniProject1.services.CardService;
-import vttp5b.ssf.miniProject1.services.FlightService;
-import vttp5b.ssf.miniProject1.services.SessionService;
+import vttp5b.ssf.miniProject1.models.*;
+import vttp5b.ssf.miniProject1.services.*;
 
 @Controller
 @RequestMapping()
@@ -78,10 +73,12 @@ public class PlannerController {
         FlightInfo btFlight = fSvc.getFlightObj(flightCode);
         //save flight to userAcct
         fSvc.saveFlightToAcct(btFlight, user, BACK_TO);
-
-        System.out.println(btFlight);
         
+        //daylist
+        Map<String, List<DayItinerary>> mapList = cSvc.mapList(user);
+
         mav.addObject(USER_INFO, user);
+        mav.addObject("dayList", mapList);
         mav.setViewName("redirect:/travel_planner");
         return mav;
     }
@@ -101,12 +98,16 @@ public class PlannerController {
         //fetch flight detail from acct
         FlightInfo ftFlight = fSvc.retrieveFlightFromAcct(user, FROM_TO);
         FlightInfo btFlight = fSvc.retrieveFlightFromAcct(user, BACK_TO);
-        //daylist
-       
         
+        //daylist
+        Map<String, List<DayItinerary>> mapList = cSvc.mapList(user);
+        System.out.println("map ");
+        mapList.forEach((k,v) -> System.out.println(k + v));
+    
         mav.addObject(USER_INFO, user);
         mav.addObject(FROM_TO, ftFlight);
         mav.addObject(BACK_TO, btFlight);
+        mav.addObject("dayList", mapList);
         mav.setViewName("travel_planner");
         return mav;
     }
