@@ -29,7 +29,7 @@ public class CherkRestController {
             return ResponseEntity.status(401).body("Session is not active");
         }
     }
-    
+
     @GetMapping(path = {"/search_address/{date}/","card//"})
     public ResponseEntity<String> wrongPath(HttpSession sess) {
         @SuppressWarnings("unused")

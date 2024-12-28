@@ -18,6 +18,7 @@
                             <tbody>
                                 <tr>
                                     <th>
+                                        <input type="hidden" name="date" data-th-value="${date}">
                                         <h5>Where to go at <span name="time" type="time" data-th-text="${time}"></span></h5>
                                     </th>
                                     <td>
@@ -38,7 +39,7 @@
                                 </tr>
                                 <tr>
                                     <td name="address" data-th-text="${place.address}"></td>
-                                    <input type="hidden" name="addrDisplay" data-th-value="${place.displayName}">
+                                    <input type="hidden" name="addrDisplay" data-th-text="${place.displayName}">
                                     <input type="hidden" name="addr" data-th-value="${place.address}">
                                     <input type="hidden" name="time" data-th-value="${place.time}">
                                     <input type="hidden" name="date" data-th-value="${date}">

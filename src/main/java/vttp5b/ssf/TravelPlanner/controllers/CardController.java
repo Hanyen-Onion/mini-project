@@ -42,6 +42,7 @@ public class CardController {
             return mav;
         }
 
+        String getDate = form.getFirst("date");
         String displayName = form.getFirst("addrDisplay");
         String address = form.getFirst("addr");
         String time = form.getFirst("time");
@@ -65,15 +66,19 @@ public class CardController {
         mav.addObject("dateList", dateList);
         mav.addObject("user", user);
         mav.addObject("date", date);
+        mav.addObject("date", getDate);
         mav.addObject("time", parseBackTime(time));
         mav.setViewName("card");
+        //redirect:/card/{date}
 
         return mav;
     }
 
     // planner -> card 
-    @GetMapping(path={"", "/{date}"}) //card?date=
-    public ModelAndView getCard(@RequestParam(required = false) String date, HttpSession sess) {
+    @GetMapping(path={"/", "/{date}", ""}) //card?date=
+    public ModelAndView getCard(
+        @PathVariable(required = false) String date, @RequestParam(required = false, name="date") String getDate, 
+        HttpSession sess) {
         
         ModelAndView mav = new ModelAndView();
         User user = sSvc.getSessionPostLogin(sess);
@@ -87,6 +92,7 @@ public class CardController {
         List<DayItinerary> dateList = cardSvc.getItinListforTheDay(date, user);
 
         mav.addObject("date", date);
+        mav.addObject("date", getDate);
         mav.addObject("dateList", dateList);
         mav.addObject("user", user);
         mav.setViewName("card");

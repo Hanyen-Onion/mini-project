@@ -5,8 +5,7 @@ import static vttp5b.ssf.TravelPlanner.Util.*;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -70,10 +69,10 @@ public class AddressController {
     }
 
     //card -> search
-    @GetMapping(path={"/{date}/{time}","/{date}"}) 
+    @GetMapping(path={"/{date}/{time}", "/{date}{time}"}) 
     public ModelAndView getAddressSearch(
-        @PathVariable(required = true) String date, 
-        @RequestParam(required = true, value="time") String timeParam, HttpSession sess) {
+        @PathVariable(required = false) String date, @RequestParam(required =false, value="date") String getDate,
+        @RequestParam(required = false, value="time") String timeParam, HttpSession sess) {
         
         ModelAndView mav = new ModelAndView();
         User user = sSvc.getSessionPostLogin(sess);
@@ -86,11 +85,10 @@ public class AddressController {
             mav.setViewName("redirect:/travel_planner");
             return mav;
         }
-        System.out.println("get search address");
-        System.out.println("time param" + timeParam);
         
         mav.addObject("time", timeParam);
         mav.addObject("date", date);
+        mav.addObject("date", getDate);
         mav.addObject("user", user);
         mav.setViewName("search_address");
         return mav;

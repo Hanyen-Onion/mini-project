@@ -148,7 +148,7 @@
     <!-- daily itinerary cards, card is the list of dayItinerary -->
     <!-- empty card for if empty -->
     <div data-th-if="${dayList == null}"> 
-        <form method="GET" data-th-action="@{/card{date}(date=${date})}">
+        <form method="GET" data-th-action="@{/card/{date}(date=${date})}">
             <div class="card" style="width: 18rem;"> <!--if can find card named by date-->
                 <div class="card-header">
                     <h5 class="card-title"><input type="date" name="date" data-th-text="${date}"></h5>
@@ -191,7 +191,7 @@
     <div data-th-unless="${dayList == null}">
         <!-- iterate each key(day)-->
         <div data-th-each="list : ${dayList}"> 
-                <form method="GET" data-th-action="@{/card{date}(date=${list.key})}">
+                <form method="GET" data-th-action="@{/card/{date}(date=${list.key})}">
                     <div class="card" style="width: 18rem;">
                         <div class="card-header">
                             <h5 class="card-title"><input type="date" name="date" data-th-value="${list.key}"></h5>
