@@ -1,4 +1,4 @@
-package vttp5b.ssf.miniProject1.models;
+package vttp5b.ssf.TravelPlanner.models;
 
 public class SearchParams {
     //address search

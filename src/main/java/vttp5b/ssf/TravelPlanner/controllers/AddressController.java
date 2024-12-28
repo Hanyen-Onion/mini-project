@@ -1,4 +1,6 @@
-package vttp5b.ssf.miniProject1.controllers;
+package vttp5b.ssf.TravelPlanner.controllers;
+
+import static vttp5b.ssf.TravelPlanner.Util.*;
 
 import java.util.List;
 
@@ -11,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
-import vttp5b.ssf.miniProject1.models.*;
-import vttp5b.ssf.miniProject1.services.*;
-import static vttp5b.ssf.miniProject1.Util.*;
+import vttp5b.ssf.TravelPlanner.models.*;
+import vttp5b.ssf.TravelPlanner.services.*;
 
 @Controller
 @RequestMapping("/search_address")

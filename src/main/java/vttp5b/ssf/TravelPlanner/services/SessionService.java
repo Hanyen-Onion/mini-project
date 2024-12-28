@@ -1,4 +1,6 @@
-package vttp5b.ssf.miniProject1.services;
+package vttp5b.ssf.TravelPlanner.services;
+
+import static vttp5b.ssf.TravelPlanner.Util.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
-import vttp5b.ssf.miniProject1.models.User;
-import vttp5b.ssf.miniProject1.repositories.PlannerRepository;
-import static vttp5b.ssf.miniProject1.Util.*;
+import vttp5b.ssf.TravelPlanner.models.User;
+import vttp5b.ssf.TravelPlanner.repositories.PlannerRepository;
 
 @Service
 public class SessionService {
@@ -30,9 +31,8 @@ public class SessionService {
                 System.out.println("no user found");
                 return null;
             }
-
             User foundUser = foundUserOpt.get();
-            System.out.println("if form got user name, what i get from optional " + foundUser);
+
             return foundUser;
         }
         

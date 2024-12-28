@@ -1,6 +1,6 @@
-package vttp5b.ssf.miniProject1.services;
+package vttp5b.ssf.TravelPlanner.services;
 
-import static vttp5b.ssf.miniProject1.Util.*;
+import static vttp5b.ssf.TravelPlanner.Util.*;
 
 import java.io.StringReader;
 import java.util.LinkedList;
@@ -22,9 +22,8 @@ import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
-import vttp5b.ssf.miniProject1.models.*;
-import vttp5b.ssf.miniProject1.models.User;
-import vttp5b.ssf.miniProject1.repositories.PlannerRepository;
+import vttp5b.ssf.TravelPlanner.models.*;
+import vttp5b.ssf.TravelPlanner.repositories.PlannerRepository;
 
 @Service
 public class FlightService {
@@ -43,7 +42,7 @@ public class FlightService {
         
         if (f != null) {
             FlightInfo flight = FlightInfo.parseToFlightInfoObj(f);
-            System.out.println("parsing at service" + flight);
+
             return flight;
         }
         return null;
@@ -178,7 +177,6 @@ public class FlightService {
 
             //add to list
             fInfoList.add(flightInfo);
-            //System.out.println(flightInfo);
         }
         plannerRepo.cacheFlights(fInfoList);
         return fInfoList;

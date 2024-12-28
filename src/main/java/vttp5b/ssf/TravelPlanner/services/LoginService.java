@@ -1,12 +1,12 @@
-package vttp5b.ssf.miniProject1.services;
+package vttp5b.ssf.TravelPlanner.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import vttp5b.ssf.miniProject1.models.User;
-import vttp5b.ssf.miniProject1.repositories.PlannerRepository;
+import vttp5b.ssf.TravelPlanner.models.User;
+import vttp5b.ssf.TravelPlanner.repositories.PlannerRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -68,18 +68,18 @@ public class LoginService {
         if (isUsernameExist(user)) {
             FieldError usernameErr = new FieldError("createForm", "username", "username already registered");
             bind.addError(usernameErr);
-
-            System.out.println("1");
+            
             return false;
         }
 
         if (!user.getPassword().equals(user.getRepeatPassword())) {
-            System.out.println("passwords are not the same");
+
             FieldError pwErr = new FieldError("createForm", "password", "password does not match");
             bind.addError(pwErr);
 
             FieldError rpwErr = new FieldError("createForm", "repeatPassword", "password does not match");
             bind.addError(rpwErr);
+            
             return false;
         }
         return true;

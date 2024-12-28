@@ -224,7 +224,11 @@
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                        <form><button type="submit" class="btn btn-primary" formmethod="POST" data-th-formaction="@{/card/delete/{date}(date=${date})}">Delete</button></form>
+                                        <form>
+                                            <input type="hidden" name="delete" value="delete">
+                                            <input type="hidden" name="date" data-th-value="${list.key}">
+                                            <button type="submit" class="btn btn-primary" formmethod="POST" data-th-formaction="@{/travel_planner}">Delete</button>
+                                        </form>
                                         </div>
                                     </div>
                                 </div>

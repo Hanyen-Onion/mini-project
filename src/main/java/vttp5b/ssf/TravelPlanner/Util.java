@@ -1,4 +1,4 @@
-package vttp5b.ssf.miniProject1;
+package vttp5b.ssf.TravelPlanner;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -122,7 +122,6 @@ public class Util {
 
             return zdtForeign; 
         } 
-
         ZoneId foreignZ = ZoneId.of(timezone);
         ZonedDateTime zdtForeign = ZonedDateTime.parse(time).withZoneSameInstant(foreignZ);
         

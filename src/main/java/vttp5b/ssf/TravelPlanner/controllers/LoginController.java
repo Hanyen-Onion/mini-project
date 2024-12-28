@@ -1,4 +1,6 @@
-package vttp5b.ssf.miniProject1.controllers;
+package vttp5b.ssf.TravelPlanner.controllers;
+
+import static vttp5b.ssf.TravelPlanner.Util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,10 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import vttp5b.ssf.miniProject1.models.User;
-import vttp5b.ssf.miniProject1.services.*;
-
-import static vttp5b.ssf.miniProject1.Util.*;
+import vttp5b.ssf.TravelPlanner.models.User;
+import vttp5b.ssf.TravelPlanner.services.*;
 
 @Controller
 @RequestMapping(path={"/", "/login"})

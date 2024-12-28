@@ -1,10 +1,10 @@
-package vttp5b.ssf.miniProject1;
+package vttp5b.ssf.TravelPlanner;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MiniProject1ApplicationTests {
+class TravelPlannerApplicationTests {
 
 	@Test
 	void contextLoads() {

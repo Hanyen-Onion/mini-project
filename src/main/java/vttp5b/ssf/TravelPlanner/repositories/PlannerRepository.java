@@ -1,6 +1,6 @@
-package vttp5b.ssf.miniProject1.repositories;
+package vttp5b.ssf.TravelPlanner.repositories;
 
-import static vttp5b.ssf.miniProject1.Util.USER_INFO;
+import static vttp5b.ssf.TravelPlanner.Util.USER_INFO;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Repository;
 
-import vttp5b.ssf.miniProject1.models.*;
+import vttp5b.ssf.TravelPlanner.models.*;
 
 @Repository
 public class PlannerRepository {
@@ -85,6 +85,12 @@ public class PlannerRepository {
 
 //user
 
+    //hdel key(user:username_id) date
+    public void delhKey(User user, String date) {
+        HashOperations<String, String, String> hashOps = template.opsForHash();
+        hashOps.delete(User.getUserRedisKey(user), DayItinerary.itinListKey(date));
+    }
+
     //hkeys  key(user:username_id)
     public Set<String> getAllhKeys(User user) {
         HashOperations<String, String, String> hashOps = template.opsForHash();
@@ -95,19 +101,6 @@ public class PlannerRepository {
             return null;
         }
         return hkeys;
-    }
-
-    public List<String> getDayListFromUser(User user) {
-        Set<String> hkeys = getAllhKeys(user);
-
-        if (hkeys == null)
-            return null;
-
-        List<String> dayListHkeys = hkeys.stream()
-                                        .filter(k -> k.contains("d:"))
-                                        .map(k -> k.replace("d:", ""))
-                                        .collect(Collectors.toList());
-        return dayListHkeys;
     }
 
     //hset key(user:username_id) d:date dateSet
@@ -171,7 +164,7 @@ public class PlannerRepository {
             
             return userRedis;
         }
-        System.out.println("user not exist");
+        System.out.println("user does not exist");
         return null;
     }
 

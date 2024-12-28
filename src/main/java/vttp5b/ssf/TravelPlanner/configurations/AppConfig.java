@@ -1,4 +1,4 @@
-package vttp5b.ssf.miniProject1.configurations;
+package vttp5b.ssf.TravelPlanner.configurations;
 
 import java.util.logging.Logger;
 

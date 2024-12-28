@@ -1,6 +1,6 @@
-package vttp5b.ssf.miniProject1.services;
+package vttp5b.ssf.TravelPlanner.services;
 
-import static vttp5b.ssf.miniProject1.Util.parseBackTime;
+import static vttp5b.ssf.TravelPlanner.Util.parseBackTime;
 
 import java.io.StringReader;
 import java.time.LocalDateTime;
@@ -15,8 +15,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.json.*;
-import vttp5b.ssf.miniProject1.models.*;
-import vttp5b.ssf.miniProject1.repositories.PlannerRepository;
+import vttp5b.ssf.TravelPlanner.models.*;
+import vttp5b.ssf.TravelPlanner.repositories.PlannerRepository;
 
 @Service
 public class CardService {
@@ -31,6 +31,24 @@ public class CardService {
     private static final String ADDRESS_URL = "https://places.googleapis.com/v1/places:searchText";
     private static final String FIELD_MASK_PARAM = "places.formattedAddress,places.id,places.displayName.text,places.location,places.googleMapsUri";
 
+    public void deleteDateList(User user, String date) {
+        pRepo.delhKey(user,date);
+    }
+    
+    //hkeys key(user:username_id)
+    public List<String> getDayListFromUser(User user) {
+        Set<String> hkeys = pRepo.getAllhKeys(user);
+
+        if (hkeys == null)
+            return null;
+
+        List<String> dayListHkeys = hkeys.stream()
+                                        .filter(k -> k.contains("d:"))
+                                        .map(k -> k.replace("d:", ""))
+                                        .collect(Collectors.toList());
+        return dayListHkeys;
+    }
+    
     //get all data
     public Map<String,List<DayItinerary>> mapList(User user) {
         List<String> dayList = getDayList(user);
@@ -78,7 +96,7 @@ public class CardService {
 
     public List<String> getDayList(User user) {
 
-        List<String> dayList = pRepo.getDayListFromUser(user);
+        List<String> dayList = getDayListFromUser(user);
  
         if (dayList == null) {
             return null;

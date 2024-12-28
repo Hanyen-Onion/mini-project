@@ -1,7 +1,6 @@
-package vttp5b.ssf.miniProject1.controllers;
+package vttp5b.ssf.TravelPlanner.controllers;
 
-import static vttp5b.ssf.miniProject1.Util.*;
-
+import static vttp5b.ssf.TravelPlanner.Util.*;
 
 import java.util.List;
 import java.util.Map;
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
-import vttp5b.ssf.miniProject1.models.*;
-import vttp5b.ssf.miniProject1.services.*;
+import vttp5b.ssf.TravelPlanner.models.*;
+import vttp5b.ssf.TravelPlanner.services.*;
 
 @Controller
 @RequestMapping()
@@ -85,6 +84,34 @@ public class PlannerController {
         if (user == null) {
             mav.setViewName("redirect:/login");
             return mav;
+        }
+        
+        //fetch flight detail from acct
+        FlightInfo ftFlight = fSvc.retrieveFlightFromAcct(user, FROM_TO);
+        FlightInfo btFlight = fSvc.retrieveFlightFromAcct(user, BACK_TO);
+        
+        //daylist
+        Map<String, List<DayItinerary>> mapList = cSvc.mapList(user);
+    
+        mav.addObject(USER_INFO, user);
+        mav.addObject(FROM_TO, ftFlight);
+        mav.addObject(BACK_TO, btFlight);
+        mav.addObject("dayList", mapList);
+        mav.setViewName("travel_planner");
+        return mav;
+    }
+
+    @PostMapping("travel_planner")
+    public ModelAndView delCard(HttpSession sess, @RequestBody String del) {
+        ModelAndView mav = new ModelAndView();  
+        User user = sSvc.getSessionPostLogin(sess);
+        if (user == null) {
+            mav.setViewName("redirect:/login");
+            return mav;
+        }
+
+        if(del.equals("delete")) {
+            cSvc.deleteDateList(user, del);
         }
         
         //fetch flight detail from acct

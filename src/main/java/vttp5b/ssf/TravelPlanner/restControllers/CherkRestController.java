@@ -1,14 +1,14 @@
-package vttp5b.ssf.miniProject1.controllers;
+package vttp5b.ssf.TravelPlanner.restControllers;
+
+import static vttp5b.ssf.TravelPlanner.Util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
-import vttp5b.ssf.miniProject1.models.User;
-import vttp5b.ssf.miniProject1.services.SessionService;
-
-import static vttp5b.ssf.miniProject1.Util.*;
+import vttp5b.ssf.TravelPlanner.models.User;
+import vttp5b.ssf.TravelPlanner.services.SessionService;
 
 @RestController
 @RequestMapping 
