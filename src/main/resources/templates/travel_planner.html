@@ -122,17 +122,19 @@
                             <div class="card-header">
                                 <h5 class="card-title"><input type="date" name="date" data-th-text="${date}"></h5>
                             </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"></li>
-                                <li class="list-group-item"></li>
-                                <li class="list-group-item"></li>
-                            </ul>
+                            <div>
+                                <ul class="list-group list-group-flush dropdown">
+                                    <li class="list-group-item"></li>
+                                    <li class="list-group-item"></li>
+                                    <li class="list-group-item"></li>
+                                </ul>
+                            </div>
                             <div class="card-body">
                                 <!-- go to card page -->
-                                <button type="submit" class="card-link">Add/Edit</button>
+                                <button type="submit" class="card-link btn">Add/Edit</button>
 
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <button type="button" class="btn btn-primary del" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Delete
                                 </button>
                             </div>
@@ -166,15 +168,15 @@
                                     <h5 class="card-title"><input type="date" name="date" data-th-value="${list.key}"></h5>
                                 </div>
                                 <!-- iterate each value(dateList) -->
-                                <ul class="list-group list-group-flush" data-th-each="obj: ${list.value}">
+                                <ul class="list-group list-group-flush dropdown" data-th-each="obj: ${list.value}">
                                     <li class="list-group-item"><span name="address" data-th-text="${obj.address}"></span></li>
                                 </ul>
                                 <div class="card-body">
                                     <!-- go to card page -->
-                                    <button type="submit" class="card-link">Add/Edit</button>
+                                    <button type="submit" class="card-link btn">Add/Edit</button>
 
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <button type="button" class="btn btn-primary del" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         Delete
                                     </button>
                                 </div>
@@ -213,15 +215,15 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Add places you want to go</li>
-                                <li class="list-group-item">Add places you want to go</li>
-                                <li class="list-group-item">Add places you want to go</li>
+                                <li class="list-group-item blank">Add places you want to go</li>
+                                <li class="list-group-item blank">Add places you want to go</li>
                             </ul>
                             <div class="card-body">
                                 <!-- go to card page -->
-                                <button type="submit" class="card-link">Add/Edit</button>
+                                <button type="submit" class="card-link btn">Add/Edit</button>
 
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <button type="button" class="btn btn-primary del" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Delete
                                 </button>
                             </div>

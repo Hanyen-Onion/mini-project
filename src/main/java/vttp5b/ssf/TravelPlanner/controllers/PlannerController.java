@@ -137,13 +137,5 @@ public class PlannerController {
         mav.setViewName("travel_planner");
         return mav;
     }
-
-    @GetMapping("save")
-    public ModelAndView getSave(HttpSession sess) {
-        ModelAndView mav = new ModelAndView();
-        sess.invalidate();
-        mav.setViewName("save");
-        return mav;
-    }
     
 }

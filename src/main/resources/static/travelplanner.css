@@ -120,8 +120,6 @@ h3 {
     --bs-btn-active-border-color: #d6ccc4;
 }
 
-
-
 .horizontal {
     padding-top: 10px;
     padding-left: 15px;
@@ -147,6 +145,63 @@ h3 {
     background-color: #f7f7f7;
 }
 
+.card-link {
+    color: #544031;
+    background-color: #e6d6be;
+}
+
+.card-link:hover {
+    color: #544031;
+    background-color: #e2cfb2;
+}
+
+.card-link:active {
+    --bs-btn-active-color: #544031;
+    --bs-btn-active-bg: #e6d8c4;
+    --bs-btn-active-border-color: transparent;
+}
+
+.save {
+    color: #544031;
+    background-color: #e6d6be;
+}
+
+.save:hover {
+    color: #544031;
+    background-color: #e2cfb2;
+}
+
+.save:active {
+    --bs-btn-active-color: #544031;
+    --bs-btn-active-bg: #e6d8c4;
+    --bs-btn-active-border-color: transparent;
+}
+
+.del {
+
+    background-color: #a0927f;
+    border: transparent;
+}
+
+.del:hover {
+
+    background-color: #897d6c;
+    border: transparent;
+}
+
+.del:active {
+    --bs-btn-active-bg: #958a7b;
+    --bs-btn-active-border-color: transparent;
+}
+
+.blank {
+    color: transparent;
+}
+
+.dropdown {
+    overflow:hidden; 
+    overflow-y:scroll;
+}
 
 
 

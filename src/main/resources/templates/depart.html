@@ -4,50 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" data-th-href="@{/search-f.css}" href="../static/search-f.css">
     <title>Flight info</title>
 </head>
 <body>
     <h1>Find flight</h1>
     <div>
         <form method="POST" action="/depart">
-            <table>
-                <tr>
-                    <td>From:</td>
-                    <td>
+                <div class="flex-wrapper">
+                    <div>From:</div>
+                    <div>
                         <input type="text" name="searchDepAirport">
-                    </td>
-                    <td>To:</td>
-                    <td>
+                    </div>
+                    <div>To:</div>
+                    <div>
                         <input type="text" name="searchArrAirport">
-                    </td>
-                    <td>Flight Code: </td>
-                    <td>
+                    </div>
+                    <div>Flight Code: </div>
+                    <div>
                         <input type="text" name="searchFlightCode">
-                    </td>
-                    <td>Date: </td>
-                    <td>
+                    </div>
+                    <div>Date: </div>
+                    <div>
                         <input type="date" name="searchFlightDate">
-                    </td>
-                    <td>
-                        <button type="submit">search</button>
-                    </td>
-                    <td>
+                    </div>
+                    <div>
+                        <button class="btn" type="submit">Search</button>
+                    </div>
+                    <div>
                         <a data-th-href="@{/travel_planner}">
-                            <button type="button">Back</button>
-                        </a>
-                    </td>
-                </tr>
-            </table>
+                            <button class="btn" type="button">Back</button>
+                        </a> 
+                    </div>
+                </div>
         </form>
     </div>
 
     <div>
-            <table class="table table-bordered table-hover align-middle text-center">
+            <table class="table table-hover align-middle text-center big-table">
                 <thead>
                     <tr>
                         <th>Flight Code</th>
                         <th>Flight Info</th>
-                        <th>Date</th>
+                        <th colspan="2">Date</th>
                     </tr>
                 </thead>
                 <tbody >
@@ -56,15 +55,14 @@
                             <input class="form-control-plaintext" name="flightCode" data-th-text="${obj.flightCode}" readonly>
                         </th>
                         <td>
-                            <table>
+                            <table class="nested-table">
                                 <tr>
                                     <td name="departTime" data-th-text="${obj.departureTime}" data-th-value="${obj.departureTime}"></td>
-                                    <td></td>
+                                    <td rowspan="3"><hr/></td>
                                     <td name="arriveTime"  data-th-text="${obj.arrivalTime}"></td>
                                 </tr>
                                 <tr>
                                     <td name="departAirport" data-th-text="${obj.departureAirport}"></td>
-                                    <td>---------</td>
                                     <td name="arriveAirport" data-th-text="${obj.arrivalAirport}"></td>
                                 </tr>
                             </table>
@@ -72,31 +70,12 @@
                         <td name="flyDate" data-th-text="${obj.flightDate}"></td>
                         <form method="POST" data-th-action="@{/travel_planner/depart/{flightCode}(flightCode=${obj.flightCode})}">
                             <td>
-                                <button type="submit">
+                                <button type="submit" class="btn">
                                     Add
                                 </button>
                             </td>
                         </form>
                     </tr>
-                    <!-- no nested table version -->
-                    <!-- <div data-th-each="obj:${flightInfoList}">
-                        <tr>
-                            <th rowspan="2" name="flightCode" data-th-field="flyCode" data-th-text="${obj.flightCode}"></td>
-                           
-                            <td name="departTime" data-th-field="departTime" data-th-text="${obj.departureTime}"></td>
-                            <td></td>
-                            <td name="arriveTime" data-th-field="arriveTime" data-th-text="${obj.arrivalTime}"></td>
-                            <td rowspan="2" name="flyDate" data-th-field="flyDate" data-th-text="${obj.flightDate}"></td>
-                            <td rowspan="2">
-                                <button type="submit">Add</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td name="departAirport" data-th-field="departAirport" data-th-text="${obj.departureAirport}"></td>
-                            <td>---------</td>
-                            <td name="arriveAirport" data-th-field="arriveAirport" data-th-text="${obj.arrivalAirport}"></td>
-                        </tr>
-                    </div>  -->
                 </tbody>
             </table>
     </div>

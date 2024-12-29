@@ -4,24 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" data-th-href="@{/card.css}" href="../static/card.css">
     <title>Document</title>
 </head>
 <body>
+    <h1 class="justify-content-between">
+        <span name="date" data-th-text="${date}"></span>
+        <a href="/travel_planner"><button class="btn" type="button">Back</button></a>
+    </h1>
     <div data-th-if="${dateList == null}">
-        <h1 class="justify-content-between">
-            <span name="date" data-th-text="${date}"></span>
-            <a href="/travel_planner"><button type="button">Back</button></a>
-        </h1>
         <form method="GET" data-th-action="@{/search_address/{date}{time}(date=${date},time=${time})}">
             <div class="list-group" data-th-object="${itinerary}">
                 <div class="list-group-item list-group-item-action" aria-current="true">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-1">Location name</h5>
+                        <input type="hidden" name="date" data-th-value="${date}"></span>
                         <small><input type="time" name="time" data-th-text="${time}"></small>
                     </div>
                     <div class="d-flex w-100 justify-content-between">
                         <p class="mb-1">Address</p>
-                        <button type="submit">Add/Edit</button>
+                        <button type="submit" class="btn">Add/Edit</button>
                     </div>
                 </div>
             </div>
@@ -29,16 +31,10 @@
     </div>
     <!-- list here -->
     <div data-th-unless="${dateList == null}">
-        <h1 class="justify-content-between" >
-            <span name="date" data-th-text="${date}"></span>
-            <a href="/travel_planner"><button type="button">Back</button></a>
-        </h1>
         <div data-th-each="obj : ${dateList}">
             <form method="GET" data-th-action="@{/search_address/{date}/{time}(date=${date},time=${obj.time})}">
-            <h1 class="justify-content-between">
                 <input type="hidden" name="date" data-th-value="${date}"></span>
                 <input type="hidden" name="time" data-th-value="${obj.time}"></span>
-            </h1>
                 <div class="list-group">
                     <div class="list-group-item list-group-item-action" aria-current="true">
                         <div class="d-flex w-100 justify-content-between">
@@ -47,7 +43,7 @@
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <p class="mb-1"><span data-th-text="${obj.address}"></span></p>
-                            <button type="submit">Add/Edit</button>
+                            <button type="submit" class="btn">Add/Edit</button>
                         </div>
                     </div>
                 </div>
@@ -61,11 +57,11 @@
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">Location name</h5>
                             <input type="hidden" name="date" data-th-value="${date}"></span>
-                            <small><input type="time" name="time" data-th-text="${time}"></small>
+                            <small><input type="time" name="time" data-th-value="${time}"></small>
                         </div>
                         <div class="d-flex w-100 justify-content-between">
                             <p class="mb-1">Address</p>
-                            <button type="submit">Add/Edit</button>
+                            <button type="submit" class="btn">Add/Edit</button>
                         </div>
                     </div>
                 </div>

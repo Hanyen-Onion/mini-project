@@ -40,4 +40,14 @@ public class CherkRestController {
                             .header(HttpHeaders.LOCATION, "/login") 
                             .build();
     }
+
+    @GetMapping(path = {"/save"})
+    public ResponseEntity<String> save(HttpSession sess) {
+
+        sess.invalidate();
+        
+        return ResponseEntity.status(HttpStatus.FOUND) 
+                            .header(HttpHeaders.LOCATION, "/login") 
+                            .build();
+    }
 }

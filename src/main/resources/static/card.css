@@ -1,0 +1,59 @@
+html, body {
+    height: 100vh;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+.btn:hover {
+    color: #473628;
+    background-color: #dbc9ad;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.btn {
+    color: #473628;
+    background-color: #e6d6be;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.btn:active {
+    --bs-btn-active-color: #544031;
+    --bs-btn-active-bg: #e6d8c4;
+    --bs-btn-active-border-color: transparent;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+h1 {
+    color: #544031;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+    display: flex;
+    justify-content: baseline;
+    margin-left: 520px;
+    margin-right: 20px;
+    margin-top: 15px;
+}
+
+.list-group {
+    --bs-list-group-color: #544031;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.list-group:hover {
+    --bs-list-group-action-hover-color: #544031;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
