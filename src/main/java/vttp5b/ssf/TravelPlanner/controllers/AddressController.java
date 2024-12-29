@@ -29,6 +29,7 @@ public class AddressController {
     @PostMapping("/{date}/{time}")
     public ModelAndView postAddressSearch(
         @RequestBody MultiValueMap<String, String> form, HttpSession sess,
+        @RequestParam(required = false, name="time") String getTime,
         @PathVariable(required = false) String date, @PathVariable(required = false) String time) {
         
         ModelAndView mav = new ModelAndView();
@@ -61,6 +62,7 @@ public class AddressController {
         cardSvc.cacheAddrList(searchResult);
         
         mav.addObject("time", time);
+        mav.addObject("time", getTime);
         mav.addObject("date", date);
         mav.addObject("searchResult", searchResult);
         mav.addObject("user", user);
@@ -69,9 +71,8 @@ public class AddressController {
     }
 
     //card -> search
-    @GetMapping(path={"/{date}/{time}", "/{date}{time}"}) 
+    @GetMapping(path={"/{date}{time}"}) 
     public ModelAndView getAddressSearch(
-        @PathVariable(required = false, name="date") String date, @PathVariable(required = false, name="time") String pathTime,
         @RequestParam(required =false, name="date") String getDate,
         @RequestParam(required = false, value="time") String timeParam, HttpSession sess) {
         
@@ -82,15 +83,37 @@ public class AddressController {
             mav.setViewName("redirect:/login");
             return mav;
         }
-        if (date == null|| getDate == null) {
-            mav.setViewName("redirect:/travel_planner");
+        // if (date == null|| getDate == null) {
+        //     mav.setViewName("redirect:/travel_planner");
+        //     return mav;
+        // }
+        mav.addObject("time", timeParam);
+        mav.addObject("date", getDate);
+        mav.addObject("user", user);
+        mav.setViewName("search_address");
+        return mav;
+    }
+
+    @GetMapping(path={"/{date}/{time}"}) 
+    public ModelAndView getAddressSearch2(
+        @PathVariable(required = false, name="date") String date, 
+        @PathVariable(required = false, name="time") String pathTime,
+        HttpSession sess) {
+        
+        ModelAndView mav = new ModelAndView();
+        User user = sSvc.getSessionPostLogin(sess);
+        if (user == null|| mav.getStatus() == HttpStatus.INTERNAL_SERVER_ERROR) {
+            user = sSvc.getSessionPreLogin(sess);
+            mav.setViewName("redirect:/login");
             return mav;
         }
-        
-        mav.addObject("time", timeParam);
+        // if (date == null|| getDate == null) {
+        //     mav.setViewName("redirect:/travel_planner");
+        //     return mav;
+        // }
+
         mav.addObject("time", pathTime);
         mav.addObject("date", date);
-        mav.addObject("date", getDate);
         mav.addObject("user", user);
         mav.setViewName("search_address");
         return mav;

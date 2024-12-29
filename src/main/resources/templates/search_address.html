@@ -12,20 +12,20 @@
         <div class="header">
             <div>
                 <h1>Search address</h1>
-                <form>
+                <form method="POST" data-th-action="@{/search_address/{date}/{time}(date=${date},time=${time})}">
                     <table>
-                        <tbody>
-                            <tr>
-                                <th>
-                                    <input type="hidden" name="date" data-th-value="${date}">
-                                    <h5>Where to go at <span name="time" type="time" data-th-text="${time}"></span></h5>
-                                </th>
-                                <td>
-                                    <input type="text" name="textQuery" data-th-text="${textQuery}">
-                                </td>
-                                <td><button class="btn" type="submit" formmethod="POST" data-th-formaction="@{/search_address/{date}/{time}(date=${date},time=${time})}">Search</button></td>
-                            </tr>
-                        </tbody>
+                        <tr>
+                            <th>
+                                <input type="hidden" name="date" data-th-value="${date}">
+                                <h5>Where to go at <span name="time" type="time" data-th-text="${time}"></span></h5>
+                            </th>
+                            <td>
+                                <input type="text" name="textQuery" data-th-text="${textQuery}">
+                            </td>
+                            <td>
+                                <button class="btn" type="submit">Search</button>
+                            </td>
+                        </tr>
                     </table>
                 </form>
             </div>
