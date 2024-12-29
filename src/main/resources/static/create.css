@@ -1,0 +1,79 @@
+html, body {
+    height: 100vh;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+.container {
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn:hover {
+    color: #473628;
+    background-color: #dbc9ad;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+    border: transparent;
+}
+
+.btn {
+    color:#544031;
+    font-family: "Crimson Text", serif;
+    background-color: #e6d6be;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+    border: transparent;
+}
+
+.btn:active {
+    --bs-btn-active-color: #544031;
+    --bs-btn-active-bg: #e6d8c4;
+    --bs-btn-active-border-color: transparent;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+    border: transparent;
+}
+
+.centering {
+    color:#3d2d21;
+    font-family: "Crimson Text", serif;
+    background-color: #bcb2b0;
+    padding: 40px;
+    max-width: 26rem;
+    max-height: 17rem;
+    border-radius: 15px;
+    margin: 100px;
+    align-self: center;
+}
+
+.flex-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5px;
+}
+
+h1 {
+    color:#3d2d21;
+    font-family: "Crimson Text", serif;
+    text-align: center;
+}
+
+.travel-planner {
+    padding-top: 20px;
+    font-size: 80px;
+}
+
+a {
+    text-align: center;
+}
+

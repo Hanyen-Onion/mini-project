@@ -5,3 +5,66 @@ html, body {
     padding: 0;
     background-color: #f7f7f7;
 }
+
+.header {
+    max-width: 28rem;
+    color: #473628;
+    font-family: "Crimson Text", serif;
+    font-weight: 1000;
+    font-style: normal;
+    display: flex;
+    flex-direction: row;
+    background-color: #e3e1de;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.btn:hover {
+    color: #473628;
+    background-color: #dbc9ad;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+    border: transparent;
+}
+
+.btn {
+    color: #473628;
+    background-color: #e6d6be;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+    border: transparent;
+}
+
+.btn:active {
+    --bs-btn-active-color: #544031;
+    --bs-btn-active-bg: #e6d8c4;
+    --bs-btn-active-border-color: transparent;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+    border: transparent;
+}
+
+.off-canvas {
+    --bs-offcanvas-width: 500px;
+    --bs-offcanvas-height: 400;
+}
+
+.result {
+    padding-top: 10px;
+    color: #473628;
+    background-color: #f7f7f7;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.result-table:hover {
+    color: #473628;
+    background-color: #dcd9d4;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+}

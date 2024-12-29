@@ -71,7 +71,8 @@ public class AddressController {
     //card -> search
     @GetMapping(path={"/{date}/{time}", "/{date}{time}"}) 
     public ModelAndView getAddressSearch(
-        @PathVariable(required = false, name="date") String date, @RequestParam(required =false, name="date") String getDate,
+        @PathVariable(required = false, name="date") String date, @PathVariable(required = false, name="time") String pathTime,
+        @RequestParam(required =false, name="date") String getDate,
         @RequestParam(required = false, value="time") String timeParam, HttpSession sess) {
         
         ModelAndView mav = new ModelAndView();
@@ -81,12 +82,13 @@ public class AddressController {
             mav.setViewName("redirect:/login");
             return mav;
         }
-        // if (date == null|| getDate == null) {
-        //     mav.setViewName("redirect:/travel_planner");
-        //     return mav;
-        // }
+        if (date == null|| getDate == null) {
+            mav.setViewName("redirect:/travel_planner");
+            return mav;
+        }
         
         mav.addObject("time", timeParam);
+        mav.addObject("time", pathTime);
         mav.addObject("date", date);
         mav.addObject("date", getDate);
         mav.addObject("user", user);

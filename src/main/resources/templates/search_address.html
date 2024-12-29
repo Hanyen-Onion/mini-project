@@ -8,68 +8,65 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-
-            <div class="col">
-                <div class="p-3">
-                    <h1 class="header">Search and add address</h1>
-                    <form>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>
-                                        <input type="hidden" name="date" data-th-value="${date}">
-                                        <h5>Where to go at <span name="time" type="time" data-th-text="${time}"></span></h5>
-                                    </th>
-                                    <td>
-                                        <input type="text" name="textQuery" data-th-text="${textQuery}">
-                                    </td>
-                                    <td><button class="btn" type="submit" formmethod="POST" data-th-formaction="@{/search_address/{date}/{time}(date=${date},time=${time})}">Search</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
-                    <!-- list returned after search -->
-                    <form data-th-each="place: ${searchResult}">
-                        <div >
-                            <table>
-                                <tr>
-                                    <td name="displayName" data-th-text="${place.displayName}"></td>
-                                    <td><button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Map</button></td>
-                                </tr>
-                                <tr>
-                                    <td name="address" data-th-text="${place.address}"></td>
-                                    <input type="hidden" name="addrDisplay" data-th-text="${place.displayName}">
-                                    <input type="hidden" name="addr" data-th-value="${place.address}">
-                                    <input type="hidden" name="time" data-th-value="${place.time}">
+    <div class="p-3">
+        <div class="header">
+            <div>
+                <h1>Search address</h1>
+                <form>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>
                                     <input type="hidden" name="date" data-th-value="${date}">
-                                    <td><button class="btn" type="submit" formmethod="POST" data-th-formaction="@{/card/{date}(date=${date})}">Add</button></td>
-                                </tr>
-                            </table>
-
-                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                                <div class="offcanvas-header">
-                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                </div>
-                                <div class="offcanvas-body">
-                                    <iframe
-                                    width="450"
-                                    height="250"
-                                    frameborder="0" style="border:0"
-                                    referrerpolicy="no-referrer-when-downgrade"
-                                    data-th-src="@{${place.embedMapUrl}}"
-                                    allowfullscreen>
-                                </iframe>
-                                </div>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
+                                    <h5>Where to go at <span name="time" type="time" data-th-text="${time}"></span></h5>
+                                </th>
+                                <td>
+                                    <input type="text" name="textQuery" data-th-text="${textQuery}">
+                                </td>
+                                <td><button class="btn" type="submit" formmethod="POST" data-th-formaction="@{/search_address/{date}/{time}(date=${date},time=${time})}">Search</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
             </div>
         </div>
+        <!-- list returned after search -->
+        <form data-th-each="place: ${searchResult}">
+            <div class="result">
+                <table class="result-table justify-content-between">
+                    <tr>
+                        <td name="displayName" data-th-text="${place.displayName}"></td>
+                    </tr>
+                    <tr>
+                        <td name="address" data-th-text="${place.address}"></td>
+                        <input type="hidden" name="addrDisplay" data-th-text="${place.displayName}">
+                        <input type="hidden" name="addr" data-th-value="${place.address}">
+                        <input type="hidden" name="time" data-th-value="${place.time}">
+                        <input type="hidden" name="date" data-th-value="${date}">
+                        <td><button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Map</button></td>
+                        <td><button class="btn" type="submit" formmethod="POST" data-th-formaction="@{/card/{date}(date=${date})}">Add</button></td>
+                    </tr>
+                </table>
+
+                <div class="offcanvas offcanvas-end w-75" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <iframe
+                        width="652.25"
+                        height="630"
+                        frameborder="0" style="border:0"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        data-th-src="@{${place.embedMapUrl}}"
+                        allowfullscreen>
+                    </iframe>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

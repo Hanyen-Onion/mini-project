@@ -60,7 +60,7 @@ public class CreateController {
         mav.addObject(USER_INFO, user);
         mav.addObject("username", user.getUsername());
         mav.addObject("userId", user.getUserId());
-        mav.setViewName("create_successful");
+        mav.setViewName("login");
         return mav;
     }
     
