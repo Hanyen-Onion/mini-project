@@ -40,6 +40,7 @@ public class PlannerController {
             mav.setViewName("redirect:/login");
             return mav;
         }
+        String username = user.getUsername();
 
         //find flight through flightCode
         FlightInfo ftFlight = fSvc.getFlightObj(flightCode);
@@ -47,6 +48,7 @@ public class PlannerController {
         fSvc.saveFlightToAcct(ftFlight, user, FROM_TO);
         
         mav.addObject(USER_INFO, user);
+        mav.addObject("username", username);
         mav.setViewName("redirect:/travel_planner");
         return mav;
     }
@@ -61,6 +63,7 @@ public class PlannerController {
             mav.setViewName("redirect:/login");
             return mav;
         }
+        String username = user.getUsername();
 
         //find flight through flightCode
         FlightInfo btFlight = fSvc.getFlightObj(flightCode);
@@ -71,6 +74,7 @@ public class PlannerController {
         Map<String, List<DayItinerary>> mapList = cSvc.mapList(user);
 
         mav.addObject(USER_INFO, user);
+        mav.addObject("username", username);
         mav.addObject("dayList", mapList);
         mav.setViewName("redirect:/travel_planner");
         return mav;
@@ -85,6 +89,8 @@ public class PlannerController {
             mav.setViewName("redirect:/login");
             return mav;
         }
+
+        String username = user.getUsername();
         
         //fetch flight detail from acct
         FlightInfo ftFlight = fSvc.retrieveFlightFromAcct(user, FROM_TO);
@@ -96,6 +102,7 @@ public class PlannerController {
         mav.addObject(USER_INFO, user);
         mav.addObject(FROM_TO, ftFlight);
         mav.addObject(BACK_TO, btFlight);
+        mav.addObject("username", username);
         mav.addObject("dayList", mapList);
         mav.setViewName("travel_planner");
         return mav;
@@ -113,6 +120,7 @@ public class PlannerController {
         if(del.equals("delete")) {
             cSvc.deleteDateList(user, del);
         }
+        String username = user.getUsername();
         
         //fetch flight detail from acct
         FlightInfo ftFlight = fSvc.retrieveFlightFromAcct(user, FROM_TO);
@@ -124,6 +132,7 @@ public class PlannerController {
         mav.addObject(USER_INFO, user);
         mav.addObject(FROM_TO, ftFlight);
         mav.addObject(BACK_TO, btFlight);
+        mav.addObject("username", username);
         mav.addObject("dayList", mapList);
         mav.setViewName("travel_planner");
         return mav;

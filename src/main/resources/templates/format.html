@@ -1,0 +1,37 @@
+
+<div class="table-wrapper" data-th-object="${fromTo}">
+    <table class="table-col-1">
+        <tr><td><span name="flightCode" data-th-text="*{flightCode}"></span></td></tr>
+        <tr><td><span name="departureAirport" data-th-text="*{departureAirport}"></span></td></tr>
+        <tr><td><span name="departureTime" data-th-text="*{departureTime}"></span></td></tr>
+    </table>
+    <div>
+        <img class="fly" src="../static/images/airplane.png" width="30" height="20">
+    </div>
+    <table class="table-col-2">
+        <tr><td><span name="departureDate" data-th-text="*{flightDate}"></span></td></tr>
+        <tr><td><span name="arrivalAirport" data-th-text="*{arrivalAirport}"></span></td></tr>
+        <tr><td><span name="arrivalTime" data-th-text="*{arrivalTime}"></span></td></tr>
+    </table>
+
+
+    <table class="flight-info-empty">
+        <thead>
+            <tr>
+                <th><span name="flightCode">TEST123</th>
+                <th></th>
+                <th colspan="2"><span name="departureDate">000, 00 000 00</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span name="departureAirport">ABC</span></td>
+                <td rowspan="2"><img class="fly" data-th-src="@{/images/airplane.png}" width="30" height="20"></td>
+                <td><span name="arrivalAirport">DEF</span></td>
+            </tr>
+            <tr>
+                <td><span name="departureTime">00:00 00</span></td>
+                <td><span name="arrivalTime">00:00 00</span></td>
+            </tr>
+        </tbody>
+    </table>

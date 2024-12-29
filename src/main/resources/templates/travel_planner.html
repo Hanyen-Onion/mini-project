@@ -3,172 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" data-th-href="@{/travelplanner.css}" href="../static/travelplanner.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>travel planner</title>
 </head>
 <body>
-    <h1>trip name</h1>
-    <br>
+    <header class="header">
+        <img data-th-src="@{/images/header_bg.jpg}" width="1280" height="230">
+        <h1 class="heading crimson-text-regular h1"><span data-th-text="*{username}"></span>'s Travel Planner</h1>
+    </header>
+
     <!-- flight itinerary -->
-    <h3>Flight Info</h3>
-
-
-        <div>
-            <!-- Fly off -->
-            <div class="col-5">
-
-                <a data-th-href="@{/depart}" data-th-if="${fromTo != null}">
-                    <button type="button" class="btn btn-outline-primary">
-                        <table class="" data-th-object="${fromTo}">
-                            <thead>
-                                <tr>
-                                    <th><span class="badge text-bg-secondary">Departure</span></th>
-                                </tr>
-                                <tr>
-                                    <th><span name="flightCode" data-th-text="*{flightCode}"></th>
-                                    <th></th>
-                                    <!-- Fri, 20/2/2025 -->
-                                    <th colspan="2"><span name="departureDate" data-th-text="*{flightDate}"></span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span name="departureAirport" data-th-text="*{departureAirport}"></span></td>
-                                    <td rowspan="2" class="align-middle">---</td>
-                                    <td><span name="arrivalAirport" data-th-text="*{arrivalAirport}"></span></td>
-                                </tr>
-                                <tr>
-                                    <td><span name="departureTime" data-th-text="*{departureTime}"></span></td>
-                                    <td><span name="arrivalTime" data-th-text="*{arrivalTime}"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </button>
-                </a>
-
-                <a data-th-href="@{/depart}" data-th-unless="${fromTo != null}">
-                    <button type="button" class="btn btn-outline-primary">
-                        <table class="" >
-                            <thead>
-                                <tr>
-                                    <th><span class="badge text-bg-secondary">Departure</span></th>
-                                </tr>
-                                <tr>
-                                    <th><span name="flightCode">TEST123</th>
-                                    <th></th>
-                                    <!-- Fri, 20/2/2025 -->
-                                    <th colspan="2"><span name="departureDate">000 00 000 00</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span name="departureAirport">ABC</span></td>
-                                    <td rowspan="2" class="align-middle">---</td>
-                                    <td><span name="arrivalAirport">BCD</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span name="departureTime">00:00 00</span></td>
-                                    <td><span name="arrivalTime">00:00 00</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </button>
-                </a>
-
-            </div>  
-
-            <!-- fly Back -->
-            <div class="col-5">
-
-                <a data-th-href="@{/return}" data-th-if="${backTo != null}">
-                    <button type="button" class="btn btn-outline-primary">
-                        <table class="" data-th-object="${backTo}">
-                            <thead>
-                                <tr>
-                                    <th><span class="badge text-bg-secondary">Arrival</span></th>
-                                </tr>
-                                <tr>
-                                    <th><span name="flightCode" data-th-text="*{flightCode}"></th>
-                                    <th></th>
-                                    
-                                    <th colspan="2"><span name="departureDate" data-th-text="*{flightDate}"></span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span name="departureAirport" data-th-text="*{departureAirport}"></span></td>
-                                    <td rowspan="2" class="align-middle">---</td>
-                                    <td><span name="arrivalAirport" data-th-text="*{arrivalAirport}"></span></td>
-                                </tr>
-                                <tr>
-                                    <td><span name="departureTime" data-th-text="*{departureTime}"></span></td>
-                                    <td><span name="arrivalTime" data-th-text="*{arrivalTime}"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </button>
-                </a>
-
-                <a data-th-href="@{/return}" data-th-unless="${backTo != null}">
-                    <button type="button" class="btn btn-outline-primary">
-                        <table class="" data-th-object="${backTo}">
-                            <thead>
-                                <tr>
-                                    <th><span class="badge text-bg-secondary">Arrival</span></th>
-                                </tr>
-                                <tr>
-                                    <th><span name="flightCode">TEST123</th>
-                                    <th></th>
-                                    
-                                    <th colspan="2"><span name="departureDate">000, 00 000 00</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span name="departureAirport">ABC</span></td>
-                                    <td rowspan="2" class="align-middle">---</td>
-                                    <td><span name="arrivalAirport">DEF</span></td>
-                                </tr>
-                                <tr>
-                                    <td><span name="departureTime">00:00 00</span></td>
-                                    <td><span name="arrivalTime">00:00 00</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </button>
-                </a>
-
+    <div class="row">
+        <div class="column flight-section">
+            <div class="sub-header crimson-text-regular">
+                <img class="icon" data-th-src="@{/images/plane.png}" width="20px" height="20px">
+                <h3>Flight Info</h3>
+            </div>
+            <hr>
+            <!-- depart -->
+            <div class="flight-wrapper">
+                    <div class="flight-data">
+                        <a data-th-href="@{/depart}" data-th-if="${fromTo != null}">
+                            <button type="button" class="btn btn-outline-primary btn-flight">
+                                <span class="badge text-bg-secondary">Departure</span>
+                                <table data-th-object="${fromTo}">
+                                    <thead>
+                                        <tr>
+                                            <th><span name="flightCode" data-th-text="*{flightCode}"></th>
+                                            <th></th>
+                                            <!-- Fri, 20/2/2025 -->
+                                            <th colspan="2"><span name="departureDate" data-th-text="*{flightDate}"></span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span name="departureAirport" data-th-text="*{departureAirport}"></span></td>
+                                            <td rowspan="2">
+                                                <img class="fly" data-th-src="@{/images/airplane.png}" width="30" height="20">
+                                            </td>
+                                            <td><span name="arrivalAirport" data-th-text="*{arrivalAirport}"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span name="departureTime" data-th-text="*{departureTime}"></span></td>
+                                            <td><span name="arrivalTime" data-th-text="*{arrivalTime}"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </button>
+                        </a>
+                    </div>
+                    <div class="flight-empty">
+                        <a data-th-href="@{/depart}" data-th-unless="${fromTo != null}">
+                            <button type="button" class="btn btn-outline-primary btn-flight">
+                                <span class="badge text-bg-secondary">Departure</span>
+                                <div>
+                                    <p class="empty-msg-f">Click to add flight info</p>
+                                </div>
+                            </button>
+                        </a>
+                    </div>
+        
+                <!-- fly Back -->
+                        <div class="flight-data">
+                            <a data-th-href="@{/return}" data-th-if="${backTo != null}">
+                                <button type="button" class="btn btn-outline-primary btn-flight">
+                                    <span class="badge text-bg-secondary">Arrival</span>
+                                    <table data-th-object="${backTo}">
+                                        <thead>
+                                            <tr>
+                                                <th><span name="flightCode" data-th-text="*{flightCode}"></th>
+                                                <th></th>
+                                                
+                                                <th colspan="2"><span name="departureDate" data-th-text="*{flightDate}"></span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><span name="departureAirport" data-th-text="*{departureAirport}"></span></td>
+                                                <td rowspan="2"><img class="fly" data-th-src="@{/images/airplane.png}" width="30" height="20"></td>
+                                                <td><span name="arrivalAirport" data-th-text="*{arrivalAirport}"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span name="departureTime" data-th-text="*{departureTime}"></span></td>
+                                                <td><span name="arrivalTime" data-th-text="*{arrivalTime}"></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </button>
+                            </a>
+                        </div>
+                        <div class="flight-empty">
+                            <a data-th-href="@{/return}" data-th-unless="${backTo != null}">
+                                <button type="button" class="btn btn-outline-primary btn-flight">
+                                    <span class="badge text-bg-secondary">Arrival</span>
+                                    <div>
+                                        <p class="empty-msg-f">Click to add flight info</p>
+                                    </div>
+                                </button>
+                            </a>
+                        </div>
+                    
+                
             </div>
         </div> 
+  
 
+        <div class="column card-section">
+            <div class="card-wrapper">
+                <!-- empty card for if empty -->
+                <div class="horizontal" data-th-if="${dayList == null}"> 
+                    <form method="GET" data-th-action="@{/card/{date}(date=${date})}">
+                        <div class="card" style="width: 18rem;"> <!--if can find card named by date-->
+                            <div class="card-header">
+                                <h5 class="card-title"><input type="date" name="date" data-th-text="${date}"></h5>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"></li>
+                                <li class="list-group-item"></li>
+                                <li class="list-group-item"></li>
+                            </ul>
+                            <div class="card-body">
+                                <!-- go to card page -->
+                                <button type="submit" class="card-link">Add/Edit</button>
 
-    <br>
-    <hr class="solid">
-    <br>
-    <!-- daily itinerary cards, card is the list of dayItinerary -->
-    <!-- empty card for if empty -->
-    <div data-th-if="${dayList == null}"> 
-        <form method="GET" data-th-action="@{/card/{date}(date=${date})}">
-            <div class="card" style="width: 18rem;"> <!--if can find card named by date-->
-                <div class="card-header">
-                    <h5 class="card-title"><input type="date" name="date" data-th-text="${date}"></h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"></li>
-                    <li class="list-group-item"></li>
-                    <li class="list-group-item"></li>
-                </ul>
-                <div class="card-body">
-                    <!-- go to card page -->
-                    <button type="submit" class="card-link">Add/Edit</button>
-
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Delete
-                    </button>
-                </div>
-            </div>
-        </form>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -187,77 +156,30 @@
                             </div>
                         </div>
                     </div>
-    </div>
-    <div data-th-unless="${dayList == null}">
-        <!-- iterate each key(day)-->
-        <div data-th-each="list : ${dayList}"> 
-                <form method="GET" data-th-action="@{/card/{date}(date=${list.key})}">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-header">
-                            <h5 class="card-title"><input type="date" name="date" data-th-value="${list.key}"></h5>
-                        </div>
-                        <!-- iterate each value(dateList) -->
-                        <ul class="list-group list-group-flush" data-th-each="obj: ${list.value}">
-                            <li class="list-group-item"><span name="address" data-th-text="${obj.address}"></span></li>
-                        </ul>
-                        <div class="card-body">
-                            <!-- go to card page -->
-                            <button type="submit" class="card-link">Add/Edit</button>
+                </div>
+                <div class="horizontal" data-th-unless="${dayList == null}">
+                    <!-- iterate each key(day)-->
+                    <div data-th-each="list : ${dayList}"> 
+                        <form method="GET" data-th-action="@{/card/{date}(date=${list.key})}">
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-header">
+                                    <h5 class="card-title"><input type="date" name="date" data-th-value="${list.key}"></h5>
+                                </div>
+                                <!-- iterate each value(dateList) -->
+                                <ul class="list-group list-group-flush" data-th-each="obj: ${list.value}">
+                                    <li class="list-group-item"><span name="address" data-th-text="${obj.address}"></span></li>
+                                </ul>
+                                <div class="card-body">
+                                    <!-- go to card page -->
+                                    <button type="submit" class="card-link">Add/Edit</button>
 
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Itinerary</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Do you want to delete this itinerary?
-                                        </div>
-                                        <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                        <form>
-                                            <input type="hidden" name="delete" value="delete">
-                                            <input type="hidden" name="date" data-th-value="${list.key}">
-                                            <button type="submit" class="btn btn-primary" formmethod="POST" data-th-formaction="@{/travel_planner}">Delete</button>
-                                        </form>
-                                        </div>
-                                    </div>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        Delete
+                                    </button>
                                 </div>
                             </div>
-            </div>
-        </div>
-        <!-- empty card to add -->
-        <div> 
-            <form method="GET" data-th-action="@{/card{date}(date=${date})}">
-                <div class="card" style="width: 18rem;"> <!--if can find card named by date-->
-                    <div class="card-header">
-                        <h5 class="card-title"><input type="date" name="date" data-th-text="${date}"></h5>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Add places you want to go</li>
-                        <li class="list-group-item">Add places you want to go</li>
-                        <li class="list-group-item">Add places you want to go</li>
-                    </ul>
-                    <div class="card-body">
-                        <!-- go to card page -->
-                        <button type="submit" class="card-link">Add/Edit</button>
-
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Delete
-                        </button>
-                    </div>
-                </div>
-            </form>
+                        </form>
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
@@ -271,24 +193,68 @@
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                    <form><button type="submit" class="btn btn-primary" formmethod="POST" data-th-formaction="@{/card/delete/{date}(date=${date})}">Delete</button></form>
+                                    <form>
+                                        <input type="hidden" name="delete" value="delete">
+                                        <input type="hidden" name="date" data-th-value="${list.key}">
+                                        <button type="submit" class="btn btn-primary" formmethod="POST" data-th-formaction="@{/travel_planner}">Delete</button>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <!-- empty card to add -->
+                <div class="horizontal"> 
+                    <form method="GET" data-th-action="@{/card{date}(date=${date})}">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-header">
+                                <h5 class="card-title"><input type="date" name="date" data-th-text="${date}"></h5>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Add places you want to go</li>
+                                <li class="list-group-item">Add places you want to go</li>
+                                <li class="list-group-item">Add places you want to go</li>
+                            </ul>
+                            <div class="card-body">
+                                <!-- go to card page -->
+                                <button type="submit" class="card-link">Add/Edit</button>
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Itinerary</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Do you want to delete this itinerary?
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                                <form><button type="submit" class="btn btn-primary" formmethod="POST" data-th-formaction="@{/card/delete/{date}(date=${date})}">Delete</button></form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-
-    <hr>
-    <div>
-        <a data-th-href="@{/save}"><button>save</button></a>
-        
+    <div class="row footer">
+        <br>
+        <a data-th-href="@{/save}"><button class="btn save">save</button></a>  
+        <!-- <a href="https://www.flaticon.com/free-icons/plane" title="plane icons">Plane icons created by Freepik - Flaticon</a> -->
     </div>
-   
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

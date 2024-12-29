@@ -1,0 +1,152 @@
+html, body {
+    height: 100vh;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+}
+
+header {
+    position: relative;
+    text-align: center;
+}
+
+img {
+    object-fit: cover;
+}
+
+.row {
+    float: left;
+    /* display: flex; */
+    padding-bottom: 80px;
+    clear: both;
+}
+
+.column.flight-section { 
+    flex: 32;
+}
+
+.column.card-section {
+    flex: 78;
+    border: 2px;
+}
+
+.flight-wrapper {
+    display: flex;
+    flex-flow: column;
+
+}
+
+.heading.crimson-text-regular  {
+    position: absolute;
+    color: #544031;
+    z-index: 40;
+    left: 25px;
+    bottom: 15px;
+
+    font-size: 40px;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.sub-header.crimson-text-regular {
+    color: #544031;
+    border: 2px;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    
+
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-style: normal;
+
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+
+.icon {
+    margin-right: 10px;
+    margin-left: 2px
+}
+
+.fly {
+    margin-top: 10px;
+    margin-left: 25px;
+    margin-right: 5px;
+    margin-bottom: 30px;
+}
+
+.card-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    border: 2px color(srgb rgb(133, 5, 5) green blue);
+}
+
+hr {
+    margin: 0;
+    margin-bottom: 10px;
+    border-top: 2px solid #544031;
+}
+
+h3 {
+    position: bottom;
+
+    margin-bottom:0;
+}
+
+.btn-flight {
+    color:#544031;
+    background-color: #dcd9d4;
+    border: 2px solid#dcd9d4;
+    min-height: 130px;
+    max-height: 130px;
+    min-width: 300px;
+    max-width: 300px;
+    margin: 8px;
+
+    text-align: center;
+}
+
+.btn-flight:hover {
+    color:#544031;
+    background-color: #d1c4ba;
+    border-color: #d1c4ba;
+}
+.btn-flight:active {
+    --bs-btn-active-color: #544031;
+    --bs-btn-active-bg: #d6ccc4;
+    --bs-btn-active-border-color: #d6ccc4;
+}
+
+
+
+.horizontal {
+    padding-top: 10px;
+    padding-left: 15px;
+}
+
+.footer {
+    padding-bottom: 20px;
+    padding-right: 40px;
+    text-align: right;
+}
+
+.badge {
+    margin-right: 210px;
+}
+
+.empty-msg-f {
+    margin-top: 25px;
+    margin-bottom: 40px;
+    margin-right: 5px;
+}
+
+.card {
+    background-color: #f7f7f7;
+}
+
+
+
+
